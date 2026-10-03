@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>丽江旅拍指南 · 纳西服饰文化 / 机位地图 / 商家避坑</title>
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js" integrity="sha384-pPi0zxBAoDu6+JXW/C68UZLvBUUtU+7zonhif43rqj7pxsGyqyqzcian2Rj37Rss" crossorigin="anonymous"></script>
+<style>
+/* ============ 基础与配色 ============ */
+:root{
+  --paper:#F5EFE0;
+  --paper-deep:#EDE4CE;
+  --ink:#2B2B28;
+  --ink-soft:#5A554A;
+  --ink-faint:#8A8375;
+  --accent:#B84A36;        /* 火塘赭红 */
+  --indigo:#2E5C8A;        /* 纳西靛蓝 */
+  --snow:#6B7B8C;          /* 雪山灰 */
+  --gold:#C89028;
+  --green:#4A7C59;
+  --line:#D9CFB6;
+  --card:#FFFDF7;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--paper);color:var(--ink);font-family:"Noto Sans SC",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Songti SC",serif;font-weight:700;line-height:1.3}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+img{max-width:100%;display:block}
+
+/* ============ 顶部导航 ============ */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(245,239,224,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+  padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.nav-brand{font-family:"Noto Serif SC",serif;font-weight:900;font-size:20px;color:var(--accent);display:flex;align-items:center;gap:10px}
+.nav-brand .seal{width:30px;height:30px;background:var(--accent);color:#fff;border-radius:6px;display:grid;place-items:center;font-size:14px;font-family:"Noto Serif SC",serif}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap}
+.nav-links a{
+  padding:8px 14px;border-radius:20px;font-size:14px;color:var(--ink-soft);
+  transition:all .2s;
+}
+.nav-links a:hover{background:var(--paper-deep);color:var(--ink)}
+.nav-links a.active{background:var(--ink);color:var(--paper)}
+.nav-toggle{display:none;background:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:18px}
+
+/* ============ 通用容器 ============ */
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.view{display:none;min-height:calc(100vh - 60px)}
+.view.active{display:block}
+
+/* ============ 签名分隔：东巴画符 ============ */
+.divider{display:flex;align-items:center;gap:14px;margin:28px 0;color:var(--accent)}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+.divider svg{flex-shrink:0}
+
+/* ============ 首页 HERO ============ */
+.hero{
+  position:relative;padding:90px 24px 80px;text-align:center;overflow:hidden;
+  background:
+    linear-gradient(180deg, rgba(20,25,35,.55) 0%, rgba(20,25,35,.75) 100%),
+    url("https://aka.doubaocdn.com/s/ukweywa94g") center/cover no-repeat;
+}
+.hero h1{font-size:clamp(30px,5vw,52px);font-weight:900;letter-spacing:2px;margin-bottom:16px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.4)}
+.hero h1 .red{color:#F0C060}
+.hero .sub{font-size:clamp(15px,2vw,18px);color:rgba(255,255,255,.9);max-width:680px;margin:0 auto 28px;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+.hero .stats{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+.hero .stat{text-align:center}
+.hero .stat .num{font-family:"Noto Serif SC",serif;font-size:32px;font-weight:900;color:#F0C060;text-shadow:0 1px 6px rgba(0,0,0,.3)}
+.hero .stat .lbl{font-size:13px;color:rgba(255,255,255,.75);margin-top:2px}
+
+/* 三大入口卡片 */
+.entries{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;margin:40px 0}
+.entry{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px 26px;
+  cursor:pointer;transition:all .25s;position:relative;overflow:hidden;
+}
+.entry:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(43,43,40,.08);border-color:var(--accent)}
+.entry .ico{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;margin-bottom:16px}
+.entry:nth-child(1) .ico{background:rgba(184,74,54,.12);color:var(--accent)}
+.entry:nth-child(2) .ico{background:rgba(46,92,138,.12);color:var(--indigo)}
+.entry:nth-child(3) .ico{background:rgba(74,124,89,.14);color:var(--green)}
+.entry h3{font-size:20px;margin-bottom:8px}
+.entry p{font-size:14px;color:var(--ink-soft)}
+.entry .go{margin-top:16px;font-size:13px;color:var(--accent);font-weight:500}
+
+/* 行业速览条 */
+.industry{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 28px;margin:20px 0 40px}
+.industry h3{font-size:17px;margin-bottom:14px;color:var(--ink)}
+.industry .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px}
+.industry .item .k{font-size:12px;color:var(--ink-faint)}
+.industry .item .v{font-family:"Noto Serif SC",serif;font-size:22px;font-weight:700;color:var(--ink)}
+.industry .item .v small{font-size:13px;color:var(--ink-faint);font-weight:400}
+
+/* ============ 服饰页 ============ */
+.page-head{padding:48px 0 24px;border-bottom:1px solid var(--line);margin-bottom:32px}
+.page-head .eyebrow{font-size:13px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:8px}
+.page-head h2{font-size:clamp(26px,3.5vw,38px);font-weight:900}
+.page-head .desc{color:var(--ink-soft);max-width:760px;margin-top:12px;font-size:15px}
+
+.costume-featured{
+  background:linear-gradient(135deg,#3a2e2a 0%,#2B2B28 100%);color:#F5EFE0;
+  border-radius:18px;padding:36px 32px;margin-bottom:32px;position:relative;overflow:hidden;
+}
+.costume-featured::after{
+  content:"披星戴月";position:absolute;right:-10px;bottom:-30px;
+  font-family:"Noto Serif SC",serif;font-size:120px;font-weight:900;opacity:.07;letter-spacing:10px;
+}
+.costume-featured .tag{display:inline-block;background:var(--accent);color:#fff;padding:3px 12px;border-radius:20px;font-size:12px;margin-bottom:14px}
+.costume-featured h3{font-size:26px;margin-bottom:10px;color:#F5EFE0}
+.costume-featured p{color:#D9CFB6;font-size:14px;max-width:680px}
+.costume-featured .facts{display:flex;gap:24px;margin-top:20px;flex-wrap:wrap}
+.costume-featured .fact .k{font-size:12px;color:#A89F8A}
+.costume-featured .fact .v{font-family:"Noto Serif SC",serif;font-size:18px;color:#F5EFE0}
+
+.costume-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-bottom:40px}
+.costume-card{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;
+  border-top:4px solid var(--indigo);
+}
+.costume-card.naxi{border-top-color:var(--accent)}
+.costume-card h4{font-size:18px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.costume-card .origin{font-size:12px;color:var(--ink-faint);margin-bottom:12px}
+.costume-card p{font-size:14px;color:var(--ink-soft)}
+.costume-card .tips{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);font-size:13px;color:var(--indigo)}
+.costume-card .tips b{color:var(--ink)}
+
+/* ============ 地图页 ============ */
+.map-layout{display:grid;grid-template-columns:1fr 320px;gap:24px;margin-bottom:40px}
+.map-wrap{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;position:sticky;top:80px}
+.map-wrap svg{width:100%;height:auto;display:block}
+.map-list{display:flex;flex-direction:column;gap:10px;max-height:70vh;overflow-y:auto;padding-right:4px}
+.map-point{
+  background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer;
+  transition:all .2s;border-left:3px solid var(--line);
+}
+.map-point:hover,.map-point.active{border-left-color:var(--accent);background:#FFF6EE}
+.map-point h5{font-size:15px;margin-bottom:2px;display:flex;justify-content:space-between;align-items:center}
+.map-point h5 .cat{font-size:11px;color:var(--ink-faint);font-weight:400}
+.map-point p{font-size:12.5px;color:var(--ink-soft)}
+.map-point .outfit{font-size:12px;color:var(--indigo);margin-top:4px}
+
+.map-detail{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-top:16px;
+}
+.map-detail h4{font-size:19px;margin-bottom:8px}
+.map-detail .row{display:flex;gap:8px;font-size:13px;margin-bottom:6px;align-items:baseline}
+.map-detail .row .k{color:var(--ink-faint);min-width:70px;flex-shrink:0}
+.map-detail .row .v{color:var(--ink)}
+.map-detail .note{margin-top:12px;padding:10px 12px;background:#FBF3E2;border-left:3px solid var(--gold);font-size:13px;color:var(--ink-soft);border-radius:4px}
+
+/* ============ 榜单页 ============ */
+.shop-toolbar{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0 16px;align-items:center}
+.shop-toolbar input[type=text]{
+  flex:1;min-width:220px;padding:11px 16px;border:1px solid var(--line);border-radius:24px;
+  background:var(--card);font-size:14px;font-family:inherit;outline:none;
+}
+.shop-toolbar input[type=text]:focus{border-color:var(--accent)}
+.shop-toolbar select{
+  padding:11px 14px;border:1px solid var(--line);border-radius:24px;background:var(--card);
+  font-size:14px;font-family:inherit;cursor:pointer;
+}
+.risk-summary{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;margin-bottom:20px;color:var(--ink-soft)}
+.risk-summary b{font-family:"Noto Serif SC",serif;font-size:16px;margin-left:4px}
+.risk-summary .low b{color:var(--green)}
+.risk-summary .mid b{color:var(--gold)}
+.risk-summary .high b{color:var(--accent)}
+
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;margin-bottom:40px}
+.shop-card{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;cursor:pointer;
+  transition:all .2s;position:relative;
+}
+.shop-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(43,43,40,.08)}
+.shop-card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px}
+.shop-card h4{font-size:15.5px;line-height:1.4}
+.shop-card .badge{flex-shrink:0;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.badge.low{background:rgba(74,124,89,.15);color:var(--green)}
+.badge.mid{background:rgba(200,144,40,.15);color:var(--gold)}
+.badge.high{background:rgba(184,74,54,.15);color:var(--accent)}
+.shop-card .meta{font-size:12.5px;color:var(--ink-faint);margin-bottom:8px}
+.shop-card .price{font-family:"Noto Serif SC",serif;font-weight:700;color:var(--accent);font-size:15px}
+.shop-card .tags{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}
+.shop-card .tags span{font-size:11px;background:var(--paper-deep);color:var(--ink-soft);padding:2px 8px;border-radius:10px}
+.shop-card .warn{margin-top:10px;font-size:12px;color:var(--accent);background:#FBF0EC;padding:6px 10px;border-radius:6px;border-left:2px solid var(--accent)}
+
+/* 详情弹窗 */
+.modal-mask{
+  position:fixed;inset:0;background:rgba(30,25,20,.55);z-index:200;display:none;
+  align-items:center;justify-content:center;padding:20px;
+}
+.modal-mask.show{display:flex}
+.modal{
+  background:var(--paper);border-radius:16px;max-width:640px;width:100%;max-height:85vh;overflow-y:auto;
+  padding:28px;position:relative;
+}
+.modal .close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:26px;color:var(--ink-faint)}
+.modal h3{font-size:22px;margin-bottom:6px;padding-right:30px}
+.modal .m-meta{font-size:13px;color:var(--ink-faint);margin-bottom:14px}
+.modal .m-rating{color:var(--gold);font-size:15px;margin-bottom:10px}
+.modal h5{font-size:14px;margin:18px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.pkg-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.pkg-row .n{flex:1;color:var(--ink)}
+.pkg-row .p{color:var(--accent);font-weight:600;white-space:nowrap}
+.pkg-row .s{color:var(--ink-faint);font-size:11px;min-width:60px;text-align:right}
+.modal .m-warn{margin-top:16px;padding:10px 14px;background:#FBF0EC;border-left:3px solid var(--accent);border-radius:4px;font-size:13px;color:var(--accent)}
+
+/* 页脚 */
+.footer{text-align:center;padding:36px 20px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:13px;margin-top:20px}
+.footer .src{font-size:12px;margin-top:6px;opacity:.8}
+
+/* ============ 民族饼图与卡片 ============ */
+.pie-block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:28px}
+.pie-block h3{font-size:17px;margin-bottom:6px}
+.pie-block .sub{font-size:13px;color:var(--ink-faint);margin-bottom:12px}
+#pieChart{width:100%;height:380px}
+
+.eth-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:40px}
+.eth-card{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;cursor:pointer;
+  transition:all .2s;border-top:4px solid var(--indigo);position:relative;overflow:hidden;
+}
+.eth-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(43,43,40,.08)}
+.eth-card .glyph{
+  width:52px;height:52px;border-radius:12px;display:grid;place-items:center;
+  font-family:"Noto Serif SC",serif;font-size:24px;font-weight:900;color:#fff;margin-bottom:12px;
+}
+.eth-card h4{font-size:17px;margin-bottom:2px}
+.eth-card .num{font-size:12px;color:var(--ink-faint);margin-bottom:8px}
+.eth-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+
+/* 民族详情页 */
+.eth-detail{display:none}
+.eth-detail.active{display:block}
+.eth-banner{
+  border-radius:18px;padding:36px 32px;color:#F5EFE0;margin-bottom:24px;position:relative;overflow:hidden;
+}
+.eth-banner .back{
+  display:inline-block;background:rgba(255,255,255,.18);color:#fff;padding:6px 14px;border-radius:20px;
+  font-size:13px;margin-bottom:16px;cursor:pointer;
+}
+.eth-banner h2{font-size:32px;margin-bottom:6px;color:#F5EFE0}
+.eth-banner .meta{font-size:14px;opacity:.85}
+.eth-banner .seal{
+  position:absolute;right:20px;bottom:-20px;font-family:"Noto Serif SC",serif;
+  font-size:120px;font-weight:900;opacity:.12;line-height:1;
+}
+.eth-section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:18px}
+.eth-section h3{font-size:18px;margin-bottom:12px;color:var(--accent);display:flex;align-items:center;gap:8px}
+.eth-section h3::before{content:"";width:4px;height:18px;background:var(--accent);border-radius:2px}
+.eth-section p{font-size:14.5px;color:var(--ink-soft);margin-bottom:10px;line-height:1.85}
+.eth-section p:last-child{margin-bottom:0}
+.eth-section .key{color:var(--ink);font-weight:500}
+.eth-section .fest-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.eth-section .fest{background:var(--paper-deep);padding:6px 14px;border-radius:20px;font-size:13px;color:var(--ink)}
+.eth-section .fest b{color:var(--accent);margin-right:4px}
+
+/* ============ 地图（真实 Leaflet + 高德瓦片） ============ */
+.leaflet-container{background:#E8E2D0;font-family:"Noto Sans SC",sans-serif}
+.map-toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.layer-btn{
+  padding:9px 18px;border-radius:24px;border:1.5px solid var(--line);background:var(--card);
+  font-size:13.5px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;
+}
+.layer-btn .dot{width:10px;height:10px;border-radius:50%}
+.layer-btn.spot .dot{background:var(--accent)}
+.layer-btn.shop .dot{background:var(--indigo)}
+.layer-btn.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.layer-btn.on.spot .dot{background:#ff8a75}
+.layer-btn.on.shop .dot{background:#7eb2e0}
+#map{height:640px;border-radius:14px;border:1px solid var(--line);z-index:1}
+@media(max-width:768px){#map{height:440px}}
+.map-legend{font-size:12px;color:var(--ink-faint);margin-left:auto}
+.leaflet-popup-content-wrapper{border-radius:10px;padding:0;overflow:hidden}
+.leaflet-popup-content{margin:0;width:260px!important}
+.popup-body{padding:12px 14px;font-size:13px;line-height:1.6}
+.popup-body h4{font-size:15px;margin-bottom:4px;color:var(--ink)}
+.popup-body .cat{font-size:11px;color:var(--accent);margin-bottom:6px}
+.popup-body .row{font-size:12px;color:var(--ink-soft);margin-bottom:4px}
+.popup-body .row b{color:var(--ink)}
+.popup-body .link{display:inline-block;margin-top:8px;font-size:12px;color:var(--accent);cursor:pointer;text-decoration:underline}
+/* 自定义 marker */
+.custom-marker{display:grid;place-items:center;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);color:#fff;font-weight:700;font-size:11px}
+.custom-marker.spot{background:var(--accent);width:26px;height:26px}
+.custom-marker.shop{background:var(--indigo);width:18px;height:18px}
+
+/* ============ 响应式 ============ */
+@media (max-width:768px){
+  .nav{padding:12px 16px}
+  .nav-links{
+    display:none;position:absolute;top:100%;left:0;right:0;background:var(--paper);
+    flex-direction:column;padding:12px 16px;border-bottom:1px solid var(--line);
+  }
+  .nav-links.open{display:flex}
+  .nav-toggle{display:block}
+  .map-layout{grid-template-columns:1fr}
+  .map-wrap{position:static}
+  .wrap{padding:0 16px}
+  .hero{padding:50px 16px 40px}
+  .costume-featured{padding:24px 20px}
+  .costume-featured::after{font-size:70px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 导航 ===== -->
+<nav class="nav">
+  <div class="nav-brand"><span class="seal">旅</span>丽江旅拍指南</div>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+  <div class="nav-links">
+    <a href="#/" data-route="/">首页</a>
+    <a href="#/costumes" data-route="/costumes">服饰文化</a>
+    <a href="#/map" data-route="/map">机位地图</a>
+    <a href="#/shops" data-route="/shops">商家避坑</a>
+  </div>
+</nav>
+
+<!-- ===== 视图：首页 ===== -->
+<section class="view active" id="view-home">
+  <div class="hero">
+    <h1>丽江<span class="red">旅拍指南</span></h1>
+    <p class="sub">丽江是纳西、藏、白、彝等多民族聚居地，古城巷道、雪山蓝湖、草原牧场都是天然摄影棚。本站整理了 13 个民族的服饰文化、30 个旅拍机位地图、68 家店铺真实评分与避坑清单，帮你穿对衣服、选对店、拍对景。</p>
+    <div class="stats">
+      <div class="stat"><div class="num">8706<small style="font-size:14px">万</small></div><div class="lbl">2025 年丽江游客人次</div></div>
+      <div class="stat"><div class="num">10<small style="font-size:14px">亿</small></div><div class="lbl">古城区旅拍市场规模</div></div>
+      <div class="stat"><div class="num">68</div><div class="lbl">实地调研收录店铺</div></div>
+      <div class="stat"><div class="num">14+</div><div class="lbl">推荐拍摄机位</div></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="entries">
+      <div class="entry" onclick="location.hash='#/costumes'">
+        <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v18M18 3v18M3 8h6M3 16h6M15 8h6M15 16h6"/></svg></div>
+        <h3>服饰文化</h3>
+        <p>纳西族"披星戴月"到底穿什么？藏袍、苗银、彝族、摩梭、汉服——每种服饰背后的故事与拍摄建议。</p>
+        <div class="go">进入了解 →</div>
+      </div>
+      <div class="entry" onclick="location.hash='#/map'">
+        <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20l-5.5-2.5v-13L9 7m0 13l6-3m-6 3V7m6 10l5.5 2.5v-13L15 4m0 13V4M9 7l6-3"/></svg></div>
+        <h3>机位地图</h3>
+        <p>大水车、四方街、网红屋顶、雪山牧场、大经幡——点选地图，看每个机位适合穿什么、拍什么、避什么坑。</p>
+        <div class="go">查看地图 →</div>
+      </div>
+      <div class="entry" onclick="location.hash='#/shops'">
+        <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-7.5 8-13a8 8 0 10-16 0c0 5.5 8 13 8 13z"/><circle cx="12" cy="9" r="3"/></svg></div>
+        <h3>商家避坑</h3>
+        <p>68 家店铺按评分、评论数、差评类型分级，明码标出低/中/高风险，附代表套餐价格与真实起售价。</p>
+        <div class="go">查看榜单 →</div>
+      </div>
+    </div>
+
+    <div class="industry">
+      <h3>丽江旅拍行业速览（基于 2025 年调研数据）</h3>
+      <div class="grid">
+        <div class="item"><div class="k">核心成交价格带</div><div class="v">200–300<small> 元 · 占销量 61%</small></div></div>
+        <div class="item"><div class="k">古城写真人均中位价</div><div class="v">215<small> 元</small></div></div>
+        <div class="item"><div class="k">雪山牧场人均中位价</div><div class="v">481<small> 元</small></div></div>
+        <div class="item"><div class="k">实际支付高于套餐价</div><div class="v">43.6<small> % 的游客</small></div></div>
+        <div class="item"><div class="k">游客最大痛点</div><div class="v">选店焦虑<small> · 占负面评价 52%</small></div></div>
+        <div class="item"><div class="k">选纳西族服饰的游客</div><div class="v">仅 1.8<small> %</small></div></div>
+      </div>
+    </div>
+
+    <div class="divider">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 14c3-6 8-6 10-2s7 4 10-2M4 20c3-4 8-4 10 0s7 4 10-2"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 视图：服饰文化 ===== -->
+<section class="view" id="view-costumes">
+  <div class="wrap">
+    <!-- 列表视图 -->
+    <div id="costumeList">
+      <div class="page-head">
+        <div class="eyebrow">Ethnic Costumes · 古城区民族结构</div>
+        <h2>丽江古城 39 个民族共居</h2>
+        <p class="desc">古城区常住户籍人口由汉族与纳西、白、彝、傈僳、苗、藏、普米、回、摩梭等 39 个民族构成。下方饼图按户籍人数比例绘制；点击人数超过 100 人的民族卡片，可查看其历史、服饰与节日详情。</p>
+      </div>
+
+      <div class="pie-block">
+        <h3>古城区各民族人口结构</h3>
+        <p class="sub">单位：人（户籍口径，20 周岁以下人口共 34,796 人）</p>
+        <div id="pieChart"></div>
+      </div>
+
+      <h3 style="font-size:18px;margin:8px 0 14px;color:var(--ink)">人数超过 100 人的民族</h3>
+      <div class="eth-grid" id="ethGrid"></div>
+
+      <div class="divider">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="14" cy="14" r="10"/><path d="M14 8v6l4 2"/></svg>
+      </div>
+    </div>
+
+    <!-- 详情视图（由 JS 渲染） -->
+    <div class="eth-detail" id="ethDetail"></div>
+  </div>
+</section>
+
+<!-- ===== 视图：机位地图 ===== -->
+<section class="view" id="view-map">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow">Shooting Spots · 高德地图</div>
+      <h2>丽江旅拍机位 + 店铺位置</h2>
+      <p class="desc">基于高德路网地图。红色点为推荐机位（可点看能拍什么风景、配什么服饰），蓝色点为旅拍店铺位置。用下面两个按钮切换图层。</p>
+    </div>
+
+    <div class="map-toolbar">
+      <button class="layer-btn spot on" data-layer="spots" onclick="toggleLayer('spots')"><span class="dot"></span>推荐机位</button>
+      <button class="layer-btn shop on" data-layer="shops" onclick="toggleLayer('shops')"><span class="dot"></span>旅拍店铺</button>
+      <span class="map-legend">共 <b id="cntSpots">0</b> 个机位 · <b id="cntShops">0</b> 家店</span>
+    </div>
+
+    <div id="map"></div>
+
+    <div class="map-detail" id="mapDetail" style="display:none;margin-top:16px"></div>
+
+    <h3 style="font-size:17px;margin:28px 0 12px">机位清单（按区域）</h3>
+    <div class="map-list" id="mapList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-bottom:40px;max-height:none"></div>
+  </div>
+</section>
+
+<!-- ===== 视图：商家榜单 ===== -->
+<section class="view" id="view-shops">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow">Vendor Risk Guide</div>
+      <h2>68 家店铺风险榜单</h2>
+      <p class="desc">评级规则：评分 ≥4.8 且评论数 ≥50 为低风险；评分 4.5–4.8 或评论数偏少为中风险；评分 &lt;4.0、评论数极少或有持续差评记录为高风险。数据来自抖音/美团公开套餐与线下调研，仅供参考。</p>
+    </div>
+
+    <!-- 三大避坑工具 -->
+    <div class="tool-cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0 22px">
+      <div class="tool-card" onclick="toggleTool(0)" style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;border-top:3px solid var(--accent)">
+        <div style="font-size:22px;margin-bottom:6px">📋</div>
+        <div style="font-weight:600;font-size:15px;color:var(--ink)">报价单避坑清单</div>
+        <div style="font-size:12px;color:var(--ink-faint);margin-top:4px">签合同前逐条核对，识别隐形消费</div>
+      </div>
+      <div class="tool-card" onclick="toggleTool(1)" style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;border-top:3px solid #C89028">
+        <div style="font-size:22px;margin-bottom:6px">🎨</div>
+        <div style="font-weight:600;font-size:15px;color:var(--ink)">精修质量自检</div>
+        <div style="font-size:12px;color:var(--ink-faint);margin-top:4px">收到精修图后对照检查这 8 项</div>
+      </div>
+      <div class="tool-card" onclick="toggleTool(2)" style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;border-top:3px solid #B84A36">
+        <div style="font-size:22px;margin-bottom:6px">🚨</div>
+        <div style="font-weight:600;font-size:15px;color:var(--ink)">高风险店预警</div>
+        <div style="font-size:12px;color:var(--ink-faint);margin-top:4px">这些店差评集中，下单前三思</div>
+      </div>
+    </div>
+
+    <!-- 工具内容区（默认隐藏） -->
+    <div id="toolPanel" style="display:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:22px"></div>
+
+    <div class="shop-toolbar">
+      <input type="text" id="searchInput" placeholder="输入店名搜索…">
+      <select id="filterRisk">
+        <option value="all">全部风险</option>
+        <option value="low">低风险</option>
+        <option value="mid">中风险</option>
+        <option value="high">高风险</option>
+      </select>
+    </div>
+
+    <div class="risk-summary">
+      <span class="low">低风险 <b id="cntLow">0</b> 家</span>
+      <span class="mid">中风险 <b id="cntMid">0</b> 家</span>
+      <span class="high">高风险 <b id="cntHigh">0</b> 家</span>
+      <span style="margin-left:auto" id="cntTotal"></span>
+    </div>
+
+    <div class="shop-grid" id="shopGrid"></div>
+  </div>
+</section>
+
+<!-- ===== 商家详情弹窗 ===== -->
+<div class="modal-mask" id="shopModal">
+  <div class="modal">
+    <button class="close" onclick="closeModal()">×</button>
+    <h3 id="mName"></h3>
+    <div class="m-meta" id="mMeta"></div>
+    <div class="m-rating" id="mRating"></div>
+    <h5>代表套餐</h5>
+    <div id="mPkgs"></div>
+    <div id="mWarn"></div>
+  </div>
+</div>
+
+<!-- ===== 页脚 ===== -->
+<footer class="footer">
+  <p>丽江旅拍指南 · 基于 2025–2026 年公开套餐数据与实地调研整理</p>
+  <p class="src">数据来源：抖音/美团团购公开页 · 丽江市文旅局公开数据 · 古城区政府公开介绍 · 调研团队问卷与访谈</p>
+</footer>
+
+<script>
+/* ===== 机位数据 ===== */
+var SPOTS = [
+  /* 古城内 */
+  {id:"dashuiiche", name:"大水车", cat:"古城内 · 地标", lat:26.8765,lng:100.2335,
+   img:"https://aka.doubaocdn.com/s/VxDqE2PCAb",
+   scene:"古城地标，两座大水车 + 蓝色都江堰式水渠，旅行团必经",
+   outfit:"纳西族披星戴月、汉服",
+   tip:"早上 8 点前人最少；正午顶光不适合人脸。拍 10 分钟就转场。"},
+  {id:"sifangjie", name:"四方街", cat:"古城内 · 中心", lat:26.8730,lng:100.2300,
+   img:"https://aka.doubaocdn.com/s/rw12vb06vH",
+   scene:"茶马古道十字路口，青石板 + 周边小吃店、铜器铺",
+   outfit:"苗族银饰、纳西日常款",
+   tip:"下午光线柔和；周围巷子里比广场正中央更出片。"},
+  {id:"daqiao", name:"大石桥（映雪桥）", cat:"古城内 · 经典机位", lat:26.8720,lng:100.2315,
+   img:"https://aka.doubaocdn.com/s/uTAz5q3VVX",
+   scene:"明代双孔石拱桥，桥下中河可见雪山倒影",
+   outfit:"汉服、纳西族、藏袍均可",
+   tip:"清晨 7–9 点无人；桥下河边比桥上更有意境。"},
+  {id:"mufu", name:"木府", cat:"古城内 · 官式建筑", lat:26.8687,lng:100.2285,
+   img:"https://aka.doubaocdn.com/s/wDm4UqEX7L",
+   scene:"纳西土司衙署，162 间房，《木府风云》取景地，三清殿、光碧楼",
+   outfit:"汉服、纳西盛装、明制",
+   tip:"需另购门票；三清殿前石阶适合正式感写真。"},
+  {id:"wuding", name:"狮子山万古楼", cat:"古城内 · 俯瞰", lat:26.8705,lng:100.2255,
+   img:"https://aka.doubaocdn.com/s/KxI3Z02PmY",
+   scene:"32.8 米全木结构望景楼，可俯瞰古城屋顶全貌",
+   outfit:"汉服、旗袍、新中式",
+   tip:"需另购狮子山门票；黄昏蓝调时刻拍古城屋顶层叠最佳。"},
+  {id:"wenchanggong", name:"文昌宫", cat:"古城内 · 古庙", lat:26.8715,lng:100.2245,
+   img:"https://aka.doubaocdn.com/s/X9pUMKUNGU",
+   scene:"狮子山上道教古庙，院内可拍古城全景 + 黑龙潭方向",
+   outfit:"汉服、纳西族",
+   tip:"比万古楼人少、门票便宜；下午逆光拍古城屋顶剪影。"},
+  {id:"dayanhuaxiang", name:"大研花巷", cat:"古城内 · 商业巷", lat:26.8755,lng:100.2325,
+   img:"https://aka.doubaocdn.com/s/F6jnUpcapv",
+   scene:"改造过的网红街巷，马头墙、观景台可拍古城屋顶",
+   outfit:"苗族、古国公主、汉服",
+   tip:"观景台需消费一杯饮品；晚上灯笼亮起拍夜景。"},
+  {id:"roof", name:"网红屋顶", cat:"古城内 · 热门", lat:26.8740,lng:100.2330,
+   img:"https://aka.doubaocdn.com/s/tV3ubaufuX",
+   scene:"私人民宅改的拍摄点，正对玉龙雪山",
+   outfit:"苗族、古国公主、藏袍",
+   tip:"多为套餐内含点位，单买约 50–100 元；旺季排队 30 分钟。"},
+  {id:"alley", name:"五一街 / 七一街巷道", cat:"古城内 · 巷道", lat:26.8715,lng:100.2320,
+   img:"https://aka.doubaocdn.com/s/C9vD4WIWw0",
+   scene:"青石板窄巷、土墙爬藤、门口三角梅",
+   outfit:"苗族、纳西日常、汉服",
+   tip:"别在主街拍，往巷子里走 50 米；下午 3–5 点侧光最好。"},
+  /* 古城周边 */
+  {id:"heimutan", name:"黑龙潭公园", cat:"古城北 · 水景", lat:26.8795,lng:100.2290,
+   img:"https://aka.doubaocdn.com/s/rcXrkzusoU",
+   scene:"象山脚下，可拍雪山倒影 + 五凤桥",
+   outfit:"纳西族、汉服、白族",
+   tip:"清晨水面无风时倒影最美；带古城维护费票据进入。"},
+  {id:"qingxi", name:"清溪公园", cat:"古城北 · 湿地", lat:26.8855,lng:100.2245,
+   img:"https://aka.doubaocdn.com/s/GDk5y86IgF",
+   scene:"黑龙潭上游湿地，草甸 + 溪水 + 雪山",
+   outfit:"汉服、白裙、藏袍",
+   tip:"人极少，适合拍大场景；需从古城打车上山。"},
+  {id:"bolanyuan", name:"丽江植物园 / 纳西部落", cat:"近郊 · 外景基地", lat:26.9180,lng:100.2080,
+   img:"https://aka.doubaocdn.com/s/sGTw2dT7Zc",
+   scene:"私人牧场改的拍摄点，经幡、木屋、草甸",
+   outfit:"藏袍、苗族",
+   tip:"比雪山牧场便宜，车程近；适合预算有限又想拍外景。"},
+  {id:"dongbagu", name:"东巴谷", cat:"近郊 · 文化园", lat:27.0150,lng:100.2250,
+   img:"https://aka.doubaocdn.com/s/8LMVIS0QO5",
+   scene:"纳西族原生态文化园，木楞房、东巴祭祀",
+   outfit:"纳西族盛装",
+   tip:"距古城约 15 公里；顺路去雪山时经过。"},
+  {id:"yunian", name:"云堤岸", cat:"近郊 · 拍摄基地", lat:26.9150,lng:100.2150,
+   img:"https://aka.doubaocdn.com/s/K30Jg4xjX8",
+   scene:"束河方向新建的旅拍基地，人工造景 + 水景",
+   outfit:"藏袍、古国公主",
+   tip:"多为套餐内含点位；问清是否含车费。"},
+  {id:"huangyezhiguo", name:"荒野之国", cat:"束河 · 艺术装置", lat:26.9120,lng:100.2180,
+   img:"https://aka.doubaocdn.com/s/fv6tIB09Mj",
+   scene:"雕塑家乔小刀造的奇幻王国，滑梯小屋、巨型木偶",
+   outfit:"汉服、新中式、小众创意",
+   tip:"门票约 50 元；出片率高但风格偏怪诞。"},
+  {id:"tinghuagu", name:"听花谷", cat:"白沙 · 拍摄基地", lat:26.9550,lng:100.1900,
+   img:"https://aka.doubaocdn.com/s/94kjSnmabT",
+   scene:"白色教堂、霍比特小屋、花海，正对玉龙雪山",
+   outfit:"白裙、汉服、藏袍",
+   tip:"距古城约 12 公里；旺季人多，建议早上 9 点前进园。"},
+  {id:"yuhuicun", name:"玉湖村", cat:"白沙 · 石头村落", lat:27.0350,lng:100.2080,
+   img:"https://aka.doubaocdn.com/s/1wDqe8qdjU",
+   scene:"雪山脚下石头砌成的古村，洛克故居",
+   outfit:"纳西族、藏袍",
+   tip:"距古城约 18 公里；最原生态的纳西村落。"},
+  /* 古镇 */
+  {id:"shuhe", name:"束河古镇", cat:"近郊 · 古镇", lat:26.9110,lng:100.2110,
+   img:"https://aka.doubaocdn.com/s/K30Jg4xjX8",
+   scene:"茶马古道集镇，青龙桥、四方听音广场，人比大研少",
+   outfit:"纳西日常款、汉服",
+   tip:"距古城约 4 公里，公交/打车 15 分钟；适合慢节奏拍摄。"},
+  {id:"baisha", name:"白沙古镇", cat:"近郊 · 纳西原生", lat:26.9650,lng:100.1920,
+   img:"https://aka.doubaocdn.com/s/f3kVBz8yrm",
+   scene:"纳西族最早的聚居地，白沙壁画、以雪山为背景的老街",
+   outfit:"纳西族、摩梭",
+   tip:"距古城 10 公里；商业化最轻，想拍『活态纳西』来这里。"},
+  {id:"lashihai", name:"拉市海", cat:"远郊 · 湿地", lat:26.8700,lng:100.1000,
+   img:"https://aka.doubaocdn.com/s/Vdim3CWe4I",
+   scene:"高原湿地，冬季有候鸟，夏季草海",
+   outfit:"汉服、白裙",
+   tip:"距古城约 10 公里；骑马项目水较深，旅拍一般只拍湿地。"},
+  /* 雪山线 */
+  {id:"yulong", name:"玉龙雪山", cat:"远郊 · 雪山", lat:27.1050,lng:100.1760,
+   img:"https://aka.doubaocdn.com/s/YS3btlAif1",
+   scene:"主峰扇子陡 5596 米，冰川公园、日照金山",
+   outfit:"藏袍、白色系",
+   tip:"需古城维护费 + 景区大巴；海拔高注意高反。"},
+  {id:"lanyuegu", name:"蓝月谷", cat:"远郊 · 雪山蓝湖", lat:27.0850,lng:100.1900,
+   img:"https://aka.doubaocdn.com/s/XLx87v9lsp",
+   scene:"玉龙雪山下蓝绿色湖水，俗称『小九寨沟』",
+   outfit:"藏袍、白裙、浅色系",
+   tip:"高端套餐含，普通旅拍店不包；水色下午最蓝。"},
+  {id:"yunshanping", name:"云杉坪", cat:"远郊 · 原始森林", lat:27.0950,lng:100.1800,
+   img:"https://aka.doubaocdn.com/s/MKGEtpL016",
+   scene:"高山草甸 + 原始云杉林，可远眺雪山",
+   outfit:"藏袍、白裙",
+   tip:"索道上山；清晨云雾弥漫最仙。"},
+  {id:"jingfan", name:"大经幡", cat:"远郊 · 经幡", lat:27.0900,lng:100.1780,
+   img:"https://aka.doubaocdn.com/s/lPdJtw7qi3",
+   scene:"五彩经幡阵，雪山为背景",
+   outfit:"藏袍、彝族",
+   tip:"旅拍热门外景点；问清是否含门票。"},
+  {id:"xiangbala", name:"香巴拉牧场", cat:"雪山 · 牧场", lat:27.0800,lng:100.1700,
+   img:"https://aka.doubaocdn.com/s/sGTw2dT7Zc",
+   scene:"草甸牧场，可抱小羊、骑马",
+   outfit:"藏袍、古国公主",
+   tip:"套餐通常含车费 + 门票；问清小羊拍摄是否另收费。"},
+  {id:"xueshanzj", name:"雪山之境牧场", cat:"雪山 · 牧场", lat:27.0750,lng:100.1750,
+   img:"https://aka.doubaocdn.com/s/sGTw2dT7Zc",
+   scene:"同款雪山牧场，经幡 + 草甸 + 木屋",
+   outfit:"藏袍、苗族",
+   tip:"多家旅拍店合作牧场，风格相近。"},
+  {id:"mashangjian", name:"马上见牧场", cat:"雪山 · 马场", lat:27.0820,lng:100.1680,
+   img:"https://aka.doubaocdn.com/s/sGTw2dT7Zc",
+   scene:"骑马体验 + 雪山背景",
+   outfit:"藏袍、彝族",
+   tip:"骑马另收费；套餐含 10–15 分钟骑行。"},
+  {id:"xueshanky", name:"雪山旷野牧场", cat:"雪山 · 旷野", lat:27.0780,lng:100.1800,
+   img:"https://aka.doubaocdn.com/s/sGTw2dT7Zc",
+   scene:"开阔草甸，人少景野",
+   outfit:"藏袍、白色系",
+   tip:"比香巴拉人少；适合拍大场景。"},
+  /* 咖啡机位 */
+  {id:"hanmai", name:"喊山麦田咖啡", cat:"白沙 · 咖啡", lat:26.9600,lng:100.1950,
+   img:"https://aka.doubaocdn.com/s/Nxx1Y9W2Ow",
+   scene:"白沙麦田边咖啡馆，落地窗正对雪山",
+   outfit:"新中式、白裙",
+   tip:"需消费一杯饮品；晴天下午光线最好。"},
+  {id:"shanxia", name:"山下咖啡", cat:"古城 · 咖啡", lat:26.8700,lng:100.2300,
+   img:"https://aka.doubaocdn.com/s/C9vD4WIWw0",
+   scene:"古城内小院咖啡馆，青瓦屋顶",
+   outfit:"汉服、新中式",
+   tip:"拍累了休息补片；下午 2–4 点人少。"}
+];
+
+/* ===== 商家数据（去重后 68 家） ===== */
+var SHOPS = [
+  {id:1,name:"侣行时光租衣旅拍(北门店)",rating:5.0,reviews:9396,price:"¥71起",risk:"low",tags:["6店通用","免押租衣"],pkgs:[
+    {n:"77一天免押租衣+精致妆造",p:"¥71",s:"3.5万+"},
+    {n:"6店通用单人套餐（6精修+底片全送）",p:"¥188",s:"8000+"},
+    {n:"雪山牧场+大经幡双人（90底片18精修）",p:"¥575",s:"100+"}
+  ]},
+  {id:2,name:"不二摄影",rating:5.0,reviews:9575,price:"¥88起",risk:"low",tags:["重工汉服","网红屋顶"],pkgs:[
+    {n:"单人民族写真妆造+服饰使用1天",p:"¥88",s:"700+"},
+    {n:"2套高定单人民族写真+网红屋顶",p:"¥284",s:"5000+"},
+    {n:"情侣民族写真+送网红屋顶",p:"¥484",s:"1000+"}
+  ]},
+  {id:3,name:"白月光旅拍馆(古城店)",rating:4.9,reviews:5329,price:"¥28起",risk:"low",tags:["底片全修","一价全含"],pkgs:[
+    {n:"双人雪山牧场（55底片全修）",p:"¥288",s:"3000+"},
+    {n:"古城单人精品民族写真（30底片全修）",p:"¥158",s:"1000+"},
+    {n:"精妆+服饰租赁全天",p:"¥28",s:"5000+"}
+  ]},
+  {id:4,name:"沐光谷妆造摄影",rating:5.0,reviews:2378,price:"¥80起",risk:"low",tags:["全城一口价","好评榜第1"],pkgs:[
+    {n:"精致妆造+民族服装使用一天",p:"¥80",s:"2000+"},
+    {n:"全城一口价单人旅拍（6精修+底片全送）",p:"¥286",s:"7000+"},
+    {n:"个人写真（5精修+底片全送）",p:"¥189",s:"700+"}
+  ]},
+  {id:5,name:"云织摄影·旅拍写真",rating:5.0,reviews:3575,price:"¥80起",risk:"low",tags:["免押","好评榜第2"],pkgs:[
+    {n:"民族服装任选+精致妆造（免押）",p:"¥80",s:"1000+"},
+    {n:"新客尝鲜民族风情写真（5精修）",p:"¥148",s:"500+"},
+    {n:"全城一口价单人旅拍（6精修）",p:"¥286",s:"7000+"}
+  ]},
+  {id:6,name:"小红花旅拍妆造馆",rating:5.0,reviews:2068,price:"¥49起",risk:"low",tags:["赠视频","无隐形消费"],pkgs:[
+    {n:"豪华精妆+800套服装（妆造满意后付款）",p:"¥78",s:"6000+"},
+    {n:"古城单人赠唯美视频（30底片6精修）",p:"¥182",s:"700+"},
+    {n:"任选民族服装免押",p:"¥49",s:"700+"}
+  ]},
+  {id:7,name:"佰爵旅拍(古城店)",rating:4.9,reviews:4814,price:"¥83起",risk:"mid",tags:["直播专享","高销量"],warn:"抖音好评6094条但仅1条中评，调研发现有工作人员联系『退100元删差评』，评分可能虚高。",pkgs:[
+    {n:"单人写真20底片全送+3精修",p:"¥83",s:"3000+"},
+    {n:"直播专享3套服装3造型",p:"¥153",s:"8000+"},
+    {n:"情侣双人30底片全送+5精修",p:"¥188",s:"2000+"}
+  ]},
+  {id:8,name:"喜程摄影(总店)",rating:4.6,reviews:4542,price:"¥50起",risk:"mid",tags:["人气榜第3","自拍"],pkgs:[
+    {n:"丽江古城自拍一天（服饰+头饰+妆造）",p:"¥80",s:"500+"},
+    {n:"个人写真1套（6精修）",p:"¥189",s:"1000+"},
+    {n:"雪山牧场单人（9精修）",p:"¥573",s:"200+"}
+  ]},
+  {id:9,name:"言西摄影(古城店)",rating:4.5,reviews:1502,price:"¥93起",risk:"mid",tags:["古城销量榜第4"],pkgs:[
+    {n:"服装租赁包妆造10小时",p:"¥93",s:"38"},
+    {n:"单人9精修送20底片",p:"¥259",s:"60+"},
+    {n:"情侣50底片12精修",p:"¥358",s:"47"}
+  ]},
+  {id:10,name:"艺梵写真工作室",rating:4.8,reviews:2095,price:"¥80起",risk:"low",tags:["拍一套送一套"],pkgs:[
+    {n:"古城租衣套餐（5小时含化妆）",p:"¥80",s:"70+"},
+    {n:"巨划算单人写真拍一送一",p:"¥188",s:"200+"},
+    {n:"寒假特惠单人一价全包",p:"¥158",s:"42"}
+  ]},
+  {id:11,name:"栖海畔·旅拍写真",rating:5.0,reviews:99,price:"¥178起",risk:"low",tags:["民族风","亲子"],pkgs:[
+    {n:"单人写真35底片8精修",p:"¥288",s:"100+"},
+    {n:"古城闺蜜70底片16精修",p:"¥583",s:"50+"},
+    {n:"牧场单人50底片14精修",p:"¥886",s:"34"}
+  ]},
+  {id:12,name:"花町旅拍(束河)",rating:5.0,reviews:425,price:"¥91起",risk:"low",tags:["束河人气榜第2"],pkgs:[
+    {n:"精妆+上下睫毛租衣自拍",p:"¥119",s:"100+"},
+    {n:"民族风写真（藏/苗/纳西9精修）",p:"¥288",s:"80+"},
+    {n:"特惠雪山牧场（6精修底片全送）",p:"¥384",s:"50+"}
+  ]},
+  {id:13,name:"寻迹万物·愉越摄影",rating:5.0,reviews:638,price:"¥187起",risk:"low",tags:["束河好评榜第1"],pkgs:[
+    {n:"门店爆款精致妆容8小时",p:"¥187",s:"热卖"},
+    {n:"个人写真古城拍摄8精修",p:"¥387",s:"热卖"},
+    {n:"双人写真古城10精修",p:"¥680",s:"200+"}
+  ]},
+  {id:14,name:"铂界旅拍(古城店)",rating:4.9,reviews:1059,price:"¥58起",risk:"mid",tags:["精妆造"],pkgs:[
+    {n:"民族写真+精妆造+服饰全天",p:"¥59",s:"800+"},
+    {n:"古城单人20底片4精修",p:"¥108",s:"100+"},
+    {n:"双人35底片全送",p:"¥188",s:"100+"}
+  ]},
+  {id:15,name:"铂界轻奢·旅拍",rating:5.0,reviews:289,price:"¥388起",risk:"low",tags:["好评榜第5","航拍"],pkgs:[
+    {n:"全国通用个人写真",p:"¥388",s:"100+"},
+    {n:"情侣写真定金",p:"¥92",s:"14"},
+    {n:"丽江无人机航拍",p:"¥786",s:"0"}
+  ]},
+  {id:16,name:"雪麓轻奢·旅拍",rating:5.0,reviews:156,price:"¥388起",risk:"low",tags:["好评榜第8","视频"],pkgs:[
+    {n:"全国通用个人写真",p:"¥388",s:"100+"},
+    {n:"旅拍15秒成品+拍摄+剪辑",p:"¥586",s:"0"},
+    {n:"情侣写真定金",p:"¥92",s:"14"}
+  ]},
+  {id:17,name:"牧牧子轻奢·写真(束河)",rating:5.0,reviews:226,price:"¥388起",risk:"low",tags:["束河好评榜第2","私人定制"],pkgs:[
+    {n:"全国通用个人写真",p:"¥388",s:"预约"},
+    {n:"高级私人订制",p:"¥1586",s:"预约"},
+    {n:"雪山牧场/古城屋顶",p:"¥786",s:"0"}
+  ]},
+  {id:18,name:"楠夏摄影·租衣旅拍",rating:5.0,reviews:819,price:"¥60起",risk:"low",tags:["好评榜第10","亲子"],pkgs:[
+    {n:"单人租衣含妆造12小时",p:"¥72",s:"600+"},
+    {n:"单人拍一送一（30底片6精修）",p:"¥189",s:"700+"},
+    {n:"情侣雪山牧场（含车费20精修）",p:"¥1110",s:"100+"}
+  ]},
+  {id:19,name:"聚财旅拍·租衣",rating:5.0,reviews:359,price:"¥80起",risk:"low",tags:["古城销量榜第2"],pkgs:[
+    {n:"全天服饰+精致妆造7小时",p:"¥80",s:"热卖"},
+    {n:"民族写真爆款6精修底片全送",p:"¥178",s:"200+"},
+    {n:"单人牧场10精修",p:"¥675",s:"25"}
+  ]},
+  {id:20,name:"壹半摄影",rating:4.9,reviews:40,price:"¥158起",risk:"low",tags:["底片全送"],pkgs:[
+    {n:"民族服饰租赁含妆造",p:"¥158",s:"7"},
+    {n:"古城个人写真6精修底片全送",p:"¥288",s:"15"},
+    {n:"牧场骑马抱羊50底片8精修",p:"¥586",s:"1"}
+  ]},
+  {id:21,name:"花间·美拍·写真馆",rating:4.9,reviews:2303,price:"¥28起",risk:"low",tags:["两千套服饰","网红屋顶"],pkgs:[
+    {n:"豪华精妆+两千套服饰自拍",p:"¥28",s:"1万+"},
+    {n:"双人豪华精妆",p:"¥66",s:"5000+"},
+    {n:"单人雪山牧场（35底片5精修）",p:"¥158",s:"600+"}
+  ]},
+  {id:22,name:"拾代摄影",rating:4.9,reviews:674,price:"¥63起",risk:"low",tags:["新店特惠","抱小羊"],pkgs:[
+    {n:"单人精妆+服装全天+储物柜",p:"¥63",s:"600+"},
+    {n:"牧场抱小羊5精修40底片",p:"¥151",s:"50+"},
+    {n:"单人双场景9精修60底片",p:"¥278",s:"37"}
+  ]},
+  {id:23,name:"海纳摄影",rating:4.9,reviews:339,price:"¥27起",risk:"low",tags:["底片全送"],pkgs:[
+    {n:"自拍套餐1000套服饰任选",p:"¥27",s:"900+"},
+    {n:"299单人牧场+古城双外景",p:"¥184",s:"500+"},
+    {n:"398双人同行",p:"¥283",s:"100+"}
+  ]},
+  {id:24,name:"云洲亿摄影",rating:4.6,reviews:1018,price:"¥67起",risk:"mid",tags:["古城屋顶","拍一送一"],pkgs:[
+    {n:"古城屋顶拍一送一30底片5精修",p:"¥197",s:"2000+"},
+    {n:"金秋雪山牧场拍一送一",p:"¥497",s:"400+"},
+    {n:"双人牧场特惠",p:"¥787",s:"200+"}
+  ]},
+  {id:25,name:"苏沐影像",rating:4.5,reviews:778,price:"¥107起",risk:"mid",tags:["亲子榜第7"],pkgs:[
+    {n:"网红个性写真1精修",p:"¥107",s:"400+"},
+    {n:"店长推荐25底片6精修",p:"¥215",s:"500+"},
+    {n:"儿童写真20底片5精修",p:"¥186",s:"100+"}
+  ]},
+  {id:26,name:"一只小鹿写真旅拍",rating:4.3,reviews:368,price:"¥80起",risk:"mid",tags:["拍一送一","全家福"],pkgs:[
+    {n:"租衣套餐12小时含妆造",p:"¥80",s:"27"},
+    {n:"单人拍一送一40底片6精修",p:"¥188",s:"200+"},
+    {n:"古城全家福两大一小",p:"¥473",s:"80+"}
+  ]},
+  {id:27,name:"尤麦摄影(总店)",rating:4.3,reviews:918,price:"¥80起",risk:"mid",tags:["汉服","马术"],pkgs:[
+    {n:"精妆精造+自拍体验",p:"¥80",s:"400+"},
+    {n:"单人普通民族写真3精修",p:"¥188",s:"50+"},
+    {n:"雪山牧场9精修",p:"¥977",s:"7"}
+  ]},
+  {id:28,name:"云朵旅拍",rating:4.8,reviews:128,price:"¥168起",risk:"mid",tags:["日照金山"],pkgs:[
+    {n:"夏季福利单人20底片2精修",p:"¥199",s:"2"},
+    {n:"单人民族写真30底片",p:"¥299",s:"50+"},
+    {n:"雪山牧场外景",p:"¥599",s:"7"}
+  ]},
+  {id:29,name:"小白兔写真馆",rating:4.8,reviews:501,price:"¥65起",risk:"low",tags:["街景写真","雪山牧场"],pkgs:[
+    {n:"服装租赁+全天妆造",p:"¥65",s:"200+"},
+    {n:"单人雪山牧场骑马抱羊",p:"¥283",s:"400+"},
+    {n:"双人雪山牧场",p:"¥483",s:"100+"}
+  ]},
+  {id:30,name:"澜森摄影",rating:4.7,reviews:163,price:"¥78起",risk:"mid",tags:["汉服妆造"],pkgs:[
+    {n:"精妆30底片5精修",p:"¥158",s:"200+"},
+    {n:"单独拍摄一对一",p:"¥89",s:"100+"},
+    {n:"双人90底片14精修",p:"¥889",s:"2"}
+  ]},
+  {id:31,name:"繁花阁摄影馆",rating:4.7,reviews:67,price:"¥168起",risk:"mid",tags:["古风","无隐形消费"],pkgs:[
+    {n:"单人妆造+拍摄底片全送",p:"¥168",s:"30"},
+    {n:"雪山牧场30底片5精修",p:"¥298",s:"14"},
+    {n:"双人拍1套40底片6精修",p:"¥398",s:"9"}
+  ]},
+  {id:32,name:"潘玮柏摄影工作室",rating:4.7,reviews:97,price:"¥56起",risk:"mid",tags:["colorday","儿童"],pkgs:[
+    {n:"618特惠单人古城2精修",p:"¥56",s:"0"},
+    {n:"单人古城民族服饰5精修",p:"¥167",s:"23"},
+    {n:"宝藏自拍精妆全天",p:"¥110",s:"50+"}
+  ]},
+  {id:33,name:"段公子摄影",rating:4.6,reviews:259,price:"¥198起",risk:"mid",tags:["超值体验","精修加购"],pkgs:[
+    {n:"超值单人古城30底片8精修",p:"¥198",s:"500+"},
+    {n:"进店必买40底片14精修",p:"¥284",s:"36"},
+    {n:"福利精修",p:"¥19.9",s:"50+"}
+  ]},
+  {id:34,name:"禧柿旅拍",rating:4.6,reviews:11,price:"¥90起",risk:"mid",tags:["24小时租衣","亲子"],pkgs:[
+    {n:"民族服饰租赁24小时",p:"¥90",s:"8"},
+    {n:"单人跟拍6精修底片全送",p:"¥188",s:"4"},
+    {n:"情侣跟拍8精修",p:"¥377",s:"1"}
+  ]},
+  {id:35,name:"丽江溪岸摄影",rating:4.6,reviews:9,price:"¥62起",risk:"mid",tags:["新店"],pkgs:[
+    {n:"服装租赁8小时含妆造",p:"¥62",s:"2"},
+    {n:"个人写真5精修底片全送",p:"¥159",s:"16"},
+    {n:"情侣7精修",p:"¥288",s:"17"}
+  ]},
+  {id:36,name:"艺格摄影·旅拍写真",rating:4.6,reviews:56,price:"¥87起",risk:"mid",tags:["专车接送","专业摄化"],pkgs:[
+    {n:"热销单人民族写真",p:"¥198",s:"25"},
+    {n:"服饰+妆造自拍一天",p:"¥87",s:"28"},
+    {n:"单人雪山牧场",p:"¥549",s:"3"}
+  ]},
+  {id:37,name:"布丁旅拍工作室",rating:4.8,reviews:365,price:"¥129起",risk:"low",tags:["免押租衣","底片全送"],pkgs:[
+    {n:"免押租衣+妆造10小时",p:"¥129",s:"300+"},
+    {n:"个人套餐古城6精修",p:"¥288",s:"80+"},
+    {n:"牧场雪山8精修",p:"¥480",s:"41"}
+  ]},
+  {id:38,name:"初梦·云曼摄影",rating:4.8,reviews:36,price:"¥80起",risk:"mid",tags:["一价全包"],pkgs:[
+    {n:"精致妆造8小时",p:"¥80",s:"11"},
+    {n:"古城个人写真6精修",p:"¥148",s:"5"},
+    {n:"雪山牧场跟拍3小时",p:"¥378",s:"13"}
+  ]},
+  {id:39,name:"桔祥摄影",rating:4.8,reviews:4,price:"¥80起",risk:"mid",tags:["新店","评论少"],pkgs:[
+    {n:"全店任选服装租赁+妆造12小时",p:"¥80",s:"19"},
+    {n:"古城单人6精修底片全送",p:"¥148",s:"7"},
+    {n:"雪山牧场6精修",p:"¥288",s:"3"}
+  ]},
+  {id:40,name:"清川旅拍",rating:5.0,reviews:34,price:"¥80起",risk:"low",tags:["精致妆造"],pkgs:[
+    {n:"民族服装租赁3小时含妆造",p:"¥80",s:"25"},
+    {n:"古镇个人写真5精修",p:"¥189",s:"27"},
+    {n:"牧场9精修",p:"¥388",s:"2"}
+  ]},
+  {id:41,name:"葘·玥摄影",rating:5.0,reviews:50,price:"¥91起",risk:"low",tags:["10小时租衣"],pkgs:[
+    {n:"民族服装租赁含妆造10小时",p:"¥118",s:"48"},
+    {n:"大经幡个人写真3精修",p:"¥288",s:"7"},
+    {n:"雪山纳西部落5精修",p:"¥486",s:"4"}
+  ]},
+  {id:42,name:"今秋民族旅拍摄影",rating:5.0,reviews:176,price:"¥62起",risk:"low",tags:["抱小羊","骑马"],pkgs:[
+    {n:"租衣+妆造1000套任选",p:"¥62",s:"5"},
+    {n:"雪山牧场6精修",p:"¥188",s:"3"},
+    {n:"情侣拍一送一",p:"¥278",s:"2"}
+  ]},
+  {id:43,name:"一玖玖零·旅拍",rating:5.0,reviews:18,price:"¥189起",risk:"low",tags:["束河人气榜第3","马术"],pkgs:[
+    {n:"老店新开牧场写真30底片6精修",p:"¥388",s:"44"},
+    {n:"单人牧场骑马50底片9精修",p:"¥787",s:"12"},
+    {n:"双人跟拍",p:"¥786",s:"9"}
+  ]},
+  {id:44,name:"雪与山租衣店",rating:5.0,reviews:31,price:"¥24起",risk:"low",tags:["冲锋衣租赁","护目镜"],pkgs:[
+    {n:"冲锋衣三合一租赁含护目镜",p:"¥24",s:"200+"},
+    {n:"骆驼冲锋衣三合一",p:"¥49",s:"80+"}
+  ]},
+  {id:45,name:"言蹊堂摄影",rating:5.0,reviews:834,price:"¥188起",risk:"low",tags:["民族服饰租赁"],pkgs:[
+    {n:"民族服饰租赁8小时",p:"¥188",s:"1"},
+    {n:"民族写真5精修",p:"¥288",s:"1"},
+    {n:"民族写真10精修",p:"¥483",s:"0"}
+  ]},
+  {id:46,name:"初颜美妆·租衣旅拍",rating:4.5,reviews:34,price:"¥63起",risk:"mid",tags:["评论少"],pkgs:[
+    {n:"服饰租赁1天+赠2精修",p:"¥63",s:"9"},
+    {n:"单人民族换装雪山牧场",p:"¥191",s:"22"},
+    {n:"情侣写真含抱羊",p:"¥283",s:"8"}
+  ]},
+  {id:47,name:"繁花相衣摄影",rating:4.4,reviews:8,price:"¥80起",risk:"mid",tags:["评论少"],pkgs:[
+    {n:"民族服饰租赁10小时",p:"¥80",s:"7"},
+    {n:"古城个人写真5精修",p:"¥188",s:"10"},
+    {n:"全家福3-5人",p:"¥674",s:"1"}
+  ]},
+  {id:48,name:"一镜山河·旅拍",rating:4.4,reviews:15,price:"¥80起",risk:"mid",tags:["一口价"],pkgs:[
+    {n:"体验单人6精修",p:"¥148",s:"3"},
+    {n:"全城一口价服装租赁",p:"¥91",s:"热卖"},
+    {n:"牧场骑马抱羊9精修",p:"¥388",s:"3"}
+  ]},
+  {id:49,name:"桥边姑娘",rating:4.3,reviews:17,price:"¥97起",risk:"mid",tags:["租衣自拍"],pkgs:[
+    {n:"租衣自拍套餐",p:"¥97",s:"30"},
+    {n:"单人古城写真3精修",p:"¥283",s:"13"},
+    {n:"雪山牧场5精修",p:"¥583",s:"3"}
+  ]},
+  {id:50,name:"麻雀旅拍",rating:4.3,reviews:157,price:"¥43起",risk:"mid",tags:["低价"],pkgs:[
+    {n:"化妆或造型",p:"¥43",s:"9"},
+    {n:"租服装包妆造12小时",p:"¥80",s:"33"},
+    {n:"个人写真5精修",p:"¥188",s:"10"}
+  ]},
+  {id:51,name:"千寻旅拍",rating:4.1,reviews:117,price:"¥44起",risk:"mid",tags:["多民族服饰"],pkgs:[
+    {n:"全天服装租赁+妆造",p:"¥80",s:"100+"},
+    {n:"苗/彝/藏/汉1天租赁",p:"¥44",s:"12"},
+    {n:"大理丽江写真5精修",p:"¥178",s:"90+"}
+  ]},
+  {id:52,name:"中云摄影(古城店)",rating:4.2,reviews:26,price:"¥334起",risk:"mid",tags:["重工汉服","马场"],pkgs:[
+    {n:"单人重工汉服+妆造",p:"¥334",s:"16"},
+    {n:"双人骑马抱羊含车费门票",p:"¥1384",s:"0"},
+    {n:"单人骑马抱羊",p:"¥984",s:"2"}
+  ]},
+  {id:53,name:"铂爵跟拍",rating:4.7,reviews:3,price:"¥667起",risk:"mid",tags:["纯跟拍","航拍","评论少"],pkgs:[
+    {n:"个人写真15秒小视频",p:"¥667",s:"0"},
+    {n:"云杉坪+蓝月谷30精修含航拍",p:"¥3975",s:"0"},
+    {n:"丽江景点跟拍一天",p:"¥8875",s:"0"}
+  ]},
+  {id:54,name:"华秀摄影美学馆",rating:4.8,reviews:262,price:"¥500起",risk:"mid",tags:["马术","加修贵"],pkgs:[
+    {n:"马术摄影咨询个人写真",p:"¥500",s:"100+"},
+    {n:"加修4张",p:"¥320",s:"2"},
+    {n:"加修20张",p:"¥1400",s:"7"}
+  ]},
+  {id:55,name:"古城飞鱼旅行旅拍店",rating:0,reviews:0,price:"¥399起",risk:"mid",tags:["新店","无评分"],pkgs:[
+    {n:"不限人群票",p:"¥399起",s:"随时退"},
+    {n:"情侣票",p:"¥888起",s:"情侣限定"},
+    {n:"3套衣服不限人群",p:"¥599起",s:"随时退"}
+  ]},
+  {id:56,name:"漫定格摄影(古城店)",rating:0,reviews:0,price:"¥284起",risk:"mid",tags:["新店","高销量"],pkgs:[
+    {n:"个人40底片8精修",p:"¥284",s:"5万+"},
+    {n:"双人30底片8精修",p:"¥384",s:"3000+"},
+    {n:"单人60底片8精修",p:"¥459",s:"2000+"}
+  ]},
+  {id:57,name:"柒沐旅拍摄影工作室",rating:0,reviews:0,price:"¥199起",risk:"mid",tags:["新店","航拍"],pkgs:[
+    {n:"199单人雪山牧场6精修",p:"¥199",s:"100+"},
+    {n:"299单人30底片+航拍",p:"¥285",s:"46"},
+    {n:"599单人含车费门票",p:"¥585",s:"2"}
+  ]},
+  {id:58,name:"三十二号摄影",rating:0,reviews:0,price:"¥168起",risk:"mid",tags:["新店","底片全送"],pkgs:[
+    {n:"单人古城氛围感",p:"¥168",s:"6"},
+    {n:"拍一送一单人两套",p:"¥198",s:"2"},
+    {n:"浪漫牧场双人",p:"¥885",s:"2"}
+  ]},
+  {id:59,name:"FYZS·花房姑娘",rating:0,reviews:0,price:"¥99起",risk:"mid",tags:["新店"],pkgs:[
+    {n:"个人写真1套服装+妆造",p:"¥99",s:"13"},
+    {n:"牧场骑马抱羊底片全送",p:"¥358",s:"1"},
+    {n:"3-4人全家福",p:"¥388",s:"0"}
+  ]},
+  {id:60,name:"在马背上摄影馆",rating:0,reviews:0,price:"¥384起",risk:"mid",tags:["新店","马术","狼女"],pkgs:[
+    {n:"新店牛仔写真",p:"¥384",s:"0"},
+    {n:"狼女写真",p:"¥684",s:"1"},
+    {n:"马术写真含起扬",p:"¥984",s:"2"}
+  ]},
+  {id:61,name:"超然映画·民族服饰旅拍",rating:0,reviews:1,price:"¥387起",risk:"mid",tags:["仅拍摄无妆造","评论极少"],pkgs:[
+    {n:"个人写真古城仅拍摄",p:"¥387",s:"0"},
+    {n:"雪山牧场仅拍摄",p:"¥387",s:"3"},
+    {n:"拉市海10精修",p:"¥477",s:"0"}
+  ]},
+  {id:62,name:"喜佳国际婚纱摄影旅拍",rating:0,reviews:2,price:"¥78起",risk:"mid",tags:["新店","评论极少"],pkgs:[
+    {n:"民族服饰租赁+妆造",p:"¥79",s:"5"},
+    {n:"古城个人写真5精修",p:"¥158",s:"5"},
+    {n:"情侣12精修",p:"¥347",s:"2"}
+  ]},
+  {id:63,name:"听风旅拍",rating:0,reviews:3,price:"¥80起",risk:"mid",tags:["新店","评论少"],pkgs:[
+    {n:"单人租赁12小时",p:"¥80",s:"2"},
+    {n:"古城单人写真",p:"¥189",s:"2"},
+    {n:"闺蜜跟拍2小时12精修",p:"¥388",s:"1"}
+  ]},
+  {id:64,name:"桥边姑娘旅拍",rating:0,reviews:1,price:"¥80起",risk:"mid",tags:["新店","评论极少"],pkgs:[
+    {n:"租衣自拍套餐",p:"¥80",s:"2"},
+    {n:"单人写真6精修",p:"¥158",s:"0"},
+    {n:"雪山牧场含门票",p:"¥349",s:"0"}
+  ]},
+  {id:65,name:"沐清风摄影",rating:3.5,reviews:5,price:"¥178起",risk:"high",tags:["评分低","评论极少"],warn:"评分仅 3.5，评论数 5 条，样本不足，建议谨慎选择。",pkgs:[
+    {n:"个人写真1服1造",p:"¥178",s:"4"},
+    {n:"拍一送一古城",p:"¥178",s:"1"}
+  ]},
+  {id:66,name:"纳西姑娘租衣旅拍",rating:3.5,reviews:1,price:"¥72起",risk:"high",tags:["评分低","仅1条评论"],warn:"评分仅 3.5，仅 1 条评论，几乎无口碑参考，强烈建议避开。",pkgs:[
+    {n:"民族服饰租赁+妆造",p:"¥72",s:"0"},
+    {n:"暑期特惠单人写真",p:"¥188",s:"0"},
+    {n:"古城单人拍两套",p:"¥288",s:"1"}
+  ]},
+  {id:67,name:"纳千金租衣·民族写真",rating:3.9,reviews:37,price:"¥70起",risk:"high",tags:["评分低于4","差评较多"],warn:"评分 3.9 低于行业平均，公开评价中差评集中在服务与精修环节，请谨慎。",pkgs:[
+    {n:"单人民族写真2精修",p:"¥140",s:"34"},
+    {n:"双人古城6精修",p:"¥347",s:"100+"},
+    {n:"雪山骑马抱羊",p:"¥675",s:"80+"}
+  ]},
+  {id:68,name:"古城旅拍",rating:4.1,reviews:6,price:"¥25起",risk:"high",tags:["评论极少","多项0销量"],warn:"评分 4.1，仅 6 条评论，套餐多为 0 销量，新店且无口碑积累。",pkgs:[
+    {n:"服装租赁4小时不含妆造",p:"¥25",s:"0"},
+    {n:"新客尝鲜5精修送30底片",p:"¥188",s:"6"},
+    {n:"双人民族写真10精修",p:"¥388",s:"0"}
+  ]}
+];
+
+/* ===== 路由 ===== */
+function route(){
+  var h = location.hash || "#/";
+  var path = h.replace(/^#/,"").split("?")[0] || "/";
+  document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active")});
+  // 民族详情子路由：/costumes/:id
+  var m = path.match(/^\/costumes\/([\w-]+)$/);
+  if(m){
+    document.getElementById("view-costumes").classList.add("active");
+    document.getElementById("costumeList").style.display = "none";
+    renderEthDetail(m[1]);
+    document.querySelectorAll(".nav-links a").forEach(function(a){a.classList.toggle("active", a.getAttribute("href")==="#/costumes")});
+    window.scrollTo(0,0);
+    document.querySelector('.nav-links').classList.remove('open');
+    return;
+  }
+  var map = {"/":"view-home","/costumes":"view-costumes","/map":"view-map","/shops":"view-shops"};
+  var id = map[path] || "view-home";
+  document.getElementById(id).classList.add("active");
+  if(id==="view-costumes"){
+    document.getElementById("costumeList").style.display = "block";
+    document.getElementById("ethDetail").classList.remove("active");
+    document.getElementById("ethDetail").innerHTML = "";
+    setTimeout(function(){if(pieChartInst) pieChartInst.resize();}, 50);
+  }
+  document.querySelectorAll(".nav-links a").forEach(function(a){
+    a.classList.toggle("active", a.getAttribute("href") === h || (path==="/" && a.getAttribute("href")==="#/"));
+  });
+  window.scrollTo(0,0);
+  document.querySelector('.nav-links').classList.remove('open');
+}
+window.addEventListener("hashchange", route);
+
+/* ===== 地图渲染（Leaflet + 高德瓦片） ===== */
+var leafletMap = null, spotLayer = null, shopLayer = null;
+function initMap(){
+  if(leafletMap) return;
+  leafletMap = L.map("map", {zoomControl:true, scrollWheelZoom:true}).setView([26.92, 100.20], 12);
+  // 高德路网瓦片
+  L.tileLayer("https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}", {
+    subdomains:["1","2","3","4"], maxZoom:18, attribution:"© 高德地图"
+  }).addTo(leafletMap);
+
+  // 景点层
+  spotLayer = L.layerGroup().addTo(leafletMap);
+  SPOTS.forEach(function(s){
+    var icon = L.divIcon({
+      className:"",
+      html:'<div class="custom-marker spot">'+s.name.charAt(0)+'</div>',
+      iconSize:[26,26], iconAnchor:[13,13], popupAnchor:[0,-13]
+    });
+    var mk = L.marker([s.lat, s.lng], {icon:icon});
+    mk.bindPopup(
+      '<div class="popup-body">'+
+        (s.img ? '<img src="'+s.img+'" style="width:100%;height:auto;border-radius:8px;margin-bottom:8px;display:block" alt="'+s.name+'">' : '')+
+        '<h4>'+s.name+'</h4>'+
+        '<div class="cat">'+s.cat+'</div>'+
+        '<div class="row"><b>能拍：</b>'+s.scene+'</div>'+
+        '<div class="row"><b>适配服饰：</b>'+s.outfit+'</div>'+
+        '<div class="row" style="color:var(--ink-faint);font-size:11.5px;margin-top:6px">'+s.tip+'</div>'+
+      '</div>'
+    );
+    mk.on("click", function(){ showSpot(s.id); });
+    mk.addTo(spotLayer);
+  });
+
+  // 店铺层：每家店一个 marker
+  // 坐标来自高德 POI 搜索 API（key 2d1caed...），部分店名模糊匹配不到的用街道中心兜底
+  shopLayer = L.layerGroup().addTo(leafletMap);
+  var SHOP_POS = {
+    1:[26.874332,100.235976], 2:[26.871508,100.235266], 3:[26.875524,100.235550],
+    4:[26.864709,100.236754], 5:[26.867469,100.240592], 6:[26.876935,100.234388],
+    7:[26.8730,100.2300], 8:[26.873898,100.243872], 9:[26.874228,100.236175],
+    10:[26.872503,100.239324], 11:[26.8730,100.2300], 12:[26.918189,100.209144],
+    13:[26.922421,100.204721], 14:[26.869575,100.235175], 15:[26.873493,100.242093],
+    16:[26.868718,100.243982], 17:[26.917498,100.206515], 18:[26.873403,100.242953],
+    19:[26.872880,100.237142], 20:[26.866146,100.240862], 21:[26.868352,100.233417],
+    22:[26.876706,100.229635], 23:[26.890571,100.219909], 24:[26.8730,100.2300],
+    25:[26.874575,100.235825], 26:[26.874763,100.235965], 27:[26.871925,100.234175],
+    28:[26.8730,100.2300], 29:[26.872825,100.234875], 30:[26.870732,100.237183],
+    31:[26.872104,100.237324], 32:[26.878495,100.232906], 33:[26.890571,100.219909],
+    34:[26.8730,100.2300], 35:[26.882574,100.212371], 36:[26.864533,100.236728],
+    37:[26.877675,100.234025], 38:[26.871125,100.239525], 39:[26.8730,100.2300],
+    40:[26.915990,100.205125], 41:[26.8730,100.2300], 42:[26.877825,100.233225],
+    43:[26.9110,100.2110], 44:[26.871746,100.234622], 45:[26.871719,100.234067],
+    46:[26.868013,100.241370], 47:[26.872104,100.237324], 48:[26.873417,100.237620],
+    49:[26.869686,100.240320], 50:[26.867394,100.233092], 51:[26.8730,100.2300],
+    52:[26.874475,100.233475], 53:[26.875773,100.232781], 54:[26.882476,100.231169],
+    55:[26.870507,100.235517], 56:[26.905475,100.226475], 57:[26.9110,100.2110],
+    58:[26.873417,100.235714], 59:[26.874332,100.235976], 60:[26.868188,100.237882],
+    61:[26.918885,100.201261], 62:[26.873725,100.235075], 63:[26.876455,100.248779],
+    64:[26.878526,100.232918], 65:[26.890571,100.219909], 66:[26.871425,100.234875],
+    67:[26.871425,100.234875], 68:[26.872574,100.243498]
+  };
+  SHOPS.forEach(function(s){
+    var ll = SHOP_POS[s.id] || [26.8730, 100.2300];
+    var color = s.risk==="high" ? "#B84A36" : s.risk==="mid" ? "#C89028" : "#2E5C8A";
+    var icon = L.divIcon({
+      className:"",
+      html:'<div class="custom-marker shop" style="background:'+color+'"></div>',
+      iconSize:[18,18], iconAnchor:[9,9]
+    });
+    var mk = L.marker(ll, {icon:icon});
+    var stars = "★".repeat(Math.floor(s.rating)) + "☆".repeat(5-Math.floor(s.rating));
+    mk.bindPopup(
+      '<div class="popup-body">'+
+        '<h4>'+s.name+'</h4>'+
+        '<div class="cat">'+(s.rating>0 ? stars+" "+s.rating.toFixed(1)+" / "+s.reviews+"条评价" : "新店 · 暂无评分")+'</div>'+
+        '<div class="row"><b>起价：</b>'+s.price+'</div>'+
+        '<div class="row"><b>风险：</b>'+(s.risk==="low"?"低":s.risk==="mid"?"中":"高")+'</div>'+
+        '<div class="link" onclick="location.hash=\'#/shops\'">去榜单看详情 →</div>'+
+      '</div>'
+    );
+    mk.addTo(shopLayer);
+  });
+
+  document.getElementById("cntSpots").textContent = SPOTS.length;
+  document.getElementById("cntShops").textContent = SHOPS.length;
+
+  // 列表
+  var list = document.getElementById("mapList");
+  list.innerHTML = SPOTS.map(function(s){
+    return '<div class="map-point" data-id="'+s.id+'" style="cursor:pointer">'+
+      '<h5>'+s.name+'<span class="cat">'+s.cat+'</span></h5>'+
+      '<p>'+s.scene+'</p>'+
+      '<div class="outfit">'+s.outfit+'</div></div>';
+  }).join("");
+  list.querySelectorAll(".map-point").forEach(function(el){
+    el.addEventListener("click", function(){
+      showSpot(el.getAttribute("data-id"));
+      var s = SPOTS.find(function(x){return x.id===el.getAttribute("data-id")});
+      if(s) leafletMap.flyTo([s.lat, s.lng], 15, {duration:0.8});
+    });
+  });
+}
+function toggleLayer(name){
+  var btn = document.querySelector('.layer-btn[data-layer="'+name+'"]');
+  var on = btn.classList.toggle("on");
+  if(name==="spots"){
+    if(on) spotLayer.addTo(leafletMap); else leafletMap.removeLayer(spotLayer);
+  } else {
+    if(on) shopLayer.addTo(leafletMap); else leafletMap.removeLayer(shopLayer);
+  }
+}
+function showSpot(id){
+  var s = SPOTS.find(function(x){return x.id===id});
+  if(!s) return;
+  document.querySelectorAll(".map-point").forEach(function(el){
+    el.classList.toggle("active", el.getAttribute("data-id")===id);
+  });
+  var d = document.getElementById("mapDetail");
+  d.style.display = "block";
+  d.innerHTML =
+    (s.img ? '<img src="'+s.img+'" alt="'+s.name+'" style="width:100%;max-height:280px;object-fit:cover;border-radius:10px;margin-bottom:12px;display:block">' : '')+
+    "<h4>"+s.name+" <small style='font-size:12px;color:var(--ink-faint);font-weight:400'>"+s.cat+"</small></h4>"+
+    '<div class="row"><span class="k">场景</span><span class="v">'+s.scene+"</span></div>"+
+    '<div class="row"><span class="k">适配服饰</span><span class="v">'+s.outfit+"</span></div>"+
+    '<div class="note">'+s.tip+"</div>";
+  d.scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+/* ===== 榜单渲染 ===== */
+function riskLabel(r){return r==="low"?"低风险":r==="mid"?"中风险":"高风险"}
+var TOOL_CONTENT = [
+  // 0: 报价单避坑清单
+  '<h3 style="font-size:17px;margin-bottom:12px;color:var(--ink)">📋 报价单避坑清单</h3>'+
+  '<p style="font-size:13px;color:var(--ink-faint);margin-bottom:14px">签合同前逐条核对，任何一条没写进合同都要问清楚。</p>'+
+  '<table style="width:100%;border-collapse:collapse;font-size:14px">'+
+  '<tr style="background:#F5EFE0"><th style="text-align:left;padding:8px 10px;border:1px solid var(--line)">检查项</th><th style="text-align:left;padding:8px 10px;border:1px solid var(--line)">常见坑</th><th style="text-align:left;padding:8px 10px;border:1px solid var(--line)">要求</th></tr>'+
+  '<tr><td style="padding:8px 10px;border:1px solid var(--line)">底片数量</td><td style="padding:8px 10px;border:1px solid var(--line)">只给精修，底片另收钱</td><td style="padding:8px 10px;border:1px solid var(--line)">要求「底片全送」写进合同</td></tr>'+
+  '<tr><td style="padding:8px 10px;border:1px solid var(--line)">精修张数</td><td style="padding:8px 10px;border:1px solid var(--line)">套餐写 9 张，实际想多选加钱</td><td style="padding:8px 10px;border:1px solid var(--line)">写清几张，加修一张多少钱</td></tr>'+
+  '<tr><td style="padding:8px 10px;border:1px solid var(--line)">服装区域</td><td style="padding:8px 10px;border:1px solid var(--line)">「全场任选」其实 VIP 区另加 200-500</td><td style="padding:8px 10px;border:1px solid var(--line)">问清是否有分区、加价多少</td></tr>'+
+  '<tr><td style="padding:8px 10px;border:1px solid var(--line)">外景车费</td><td style="padding:8px 10px;border:1px solid var(--line)">去雪山/蓝月谷另收车费 100-200</td><td style="padding:8px 10px;border:1px solid var(--line)">问清是否含接送</td></tr>'+
+  '<tr><td style="padding:8px 10px;border:1px solid var(--line)">妆造费</td><td style="padding:8px 10px;border:1px solid var(--line)">假睫毛、安耐晒、鲜花另收 50-200</td><td style="padding:8px 10px;border:1px solid var(--line)">要求妆造全含，无附加</td></tr>'+
+  '<tr><td style="padding:8px 10px;border:1px solid var(--line)">选片</td><td style="padding:8px 10px;border:1px solid var(--line)">选片师逼单，不加片不让走</td><td style="padding:8px 10px;border:1px solid var(--line)">问清是否强消，保留拒绝权</td></tr>'+
+  '<tr><td style="padding:8px 10px;border:1px solid var(--line)">逾期违约金</td><td style="padding:8px 10px;border:1px solid var(--line)">改期扣 30%-50%</td><td style="padding:8px 10px;border:1px solid var(--line)">写清改期/退款规则</td></tr>'+
+  '<tr><td style="padding:8px 10px;border:1px solid var(--line)">宠物/道具</td><td style="padding:8px 10px;border:1px solid var(--line)">抱小羊、骑马、经幡另收费</td><td style="padding:8px 10px;border:1px solid var(--line)">问清哪些道具免费</td></tr>'+
+  '</table>',
+  // 1: 精修质量自检
+  '<h3 style="font-size:17px;margin-bottom:12px;color:var(--ink)">🎨 精修质量自检</h3>'+
+  '<p style="font-size:13px;color:var(--ink-faint);margin-bottom:14px">收到精修图后，放大检查这 8 项，有问题要求重修。</p>'+
+  '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px;line-height:1.7">'+
+  '<div>✅ <b>脸对称</b>：左右脸是否一致，耳朵、眼睛大小</div>'+
+  '<div>✅ <b>手指数量</b>：每只手 5 根手指，别多别少</div>'+
+  '<div>✅ <b>背景穿帮</b>：路人、垃圾桶、电线杆是否修掉</div>'+
+  '<div>✅ <b>磨皮程度</b>：不要磨成塑料脸，保留皮肤纹理</div>'+
+  '<div>✅ <b>色彩自然</b>：蓝天不要假蓝，肤色不要蜡黄</div>'+
+  '<div>✅ <b>身材比例</b>：腿别拉太长，变形就不自然</div>'+
+  '<div>✅ <b>文字方向</b>：招牌、对联别反向镜像</div>'+
+  '<div>✅ <b>毛发细节</b>：发丝、睫毛有没有被修没</div>'+
+  '</div>'+
+  '<p style="margin-top:14px;font-size:13px;color:var(--ink-faint)">参考站工具可上传原图+精修图 AI 对比，本页提供自检清单；如发现严重修图问题，要求免费重修 1-2 次。</p>',
+  // 2: 高风险店预警
+  '<h3 style="font-size:17px;margin-bottom:12px;color:#B84A36">🚨 高风险店预警</h3>'+
+  '<p style="font-size:13px;color:var(--ink-faint);margin-bottom:14px">以下店铺评分低于 4.0 或评价数极少，差评集中，强烈建议避开。</p>'+
+  '<div id="highRiskList" style="font-size:14px"></div>'
+];
+
+function toggleTool(i){
+  var panel = document.getElementById("toolPanel");
+  if(panel.dataset.open === String(i)){
+    panel.style.display = "none";
+    panel.dataset.open = "";
+    return;
+  }
+  panel.style.display = "block";
+  panel.dataset.open = i;
+  panel.innerHTML = TOOL_CONTENT[i];
+  if(i===2){
+    // 渲染高风险店列表
+    var high = SHOPS.filter(function(s){return s.risk==="high"});
+    document.getElementById("highRiskList").innerHTML = high.map(function(s){
+      return '<div style="padding:10px;border:1px solid #B84A36;border-radius:8px;margin-bottom:8px;background:#FDF2EF">'+
+        '<b style="color:#B84A36">'+s.name+'</b>'+
+        '<div style="font-size:13px;color:var(--ink-soft);margin-top:4px">评分 '+s.rating.toFixed(1)+' · '+s.reviews+' 条评价 · '+s.price+'起</div>'+
+        '<div style="font-size:13px;color:#B84A36;margin-top:4px">⚠️ '+s.warning+'</div>'+
+      '</div>';
+    }).join("");
+  }
+}
+
+function renderShops(){
+  var kw = (document.getElementById("searchInput").value||"").toLowerCase().trim();
+  var risk = document.getElementById("filterRisk").value;
+  var filtered = SHOPS.filter(function(s){
+    var okKw = !kw || s.name.toLowerCase().indexOf(kw)>=0 || (s.tags||[]).join(" ").indexOf(kw)>=0;
+    var okRisk = risk==="all" || s.risk===risk;
+    return okKw && okRisk;
+  });
+  var grid = document.getElementById("shopGrid");
+  grid.innerHTML = filtered.map(function(s){
+    var stars = "★".repeat(Math.floor(s.rating)) + "☆".repeat(5-Math.floor(s.rating));
+    var badge = s.risk==="low"?'<span class="badge low">低风险</span>':s.risk==="mid"?'<span class="badge mid">中风险</span>':'<span class="badge high">高风险</span>';
+    var tags = (s.tags||[]).map(function(t){return "<span>"+t+"</span>"}).join("");
+    var warn = s.warn ? '<div class="warn">'+s.warn+'</div>' : "";
+    return '<div class="shop-card" data-id="'+s.id+'">'+
+      '<div class="top"><h4>'+s.name+'</h4>'+badge+'</div>'+
+      '<div class="meta">'+stars+(s.rating>0?(" "+s.rating.toFixed(1)):" 暂无评分")+' · '+s.reviews+' 条评价</div>'+
+      '<div class="price">'+s.price+'</div>'+
+      '<div class="tags">'+tags+'</div>'+warn+
+    '</div>';
+  }).join("");
+  grid.querySelectorAll(".shop-card").forEach(function(el){
+    el.addEventListener("click", function(){openModal(parseInt(el.getAttribute("data-id")))});
+  });
+  var cntLow = SHOPS.filter(function(s){return s.risk==="low"}).length;
+  var cntMid = SHOPS.filter(function(s){return s.risk==="mid"}).length;
+  var cntHigh = SHOPS.filter(function(s){return s.risk==="high"}).length;
+  document.getElementById("cntLow").textContent = cntLow;
+  document.getElementById("cntMid").textContent = cntMid;
+  document.getElementById("cntHigh").textContent = cntHigh;
+  document.getElementById("cntTotal").textContent = "共 "+filtered.length+" 家";
+}
+function openModal(id){
+  var s = SHOPS.find(function(x){return x.id===id});
+  if(!s) return;
+  document.getElementById("mName").textContent = s.name;
+  document.getElementById("mMeta").textContent = s.reviews+" 条评价 · 起售价 "+s.price+" · "+riskLabel(s.risk);
+  document.getElementById("mRating").textContent = s.rating>0?("★ "+s.rating.toFixed(1)+" / 5.0"):"暂无评分";
+  document.getElementById("mPkgs").innerHTML = s.pkgs.map(function(p){
+    return '<div class="pkg-row"><span class="n">'+p.n+'</span><span class="p">'+p.p+'</span><span class="s">'+p.s+'</span></div>';
+  }).join("");
+  document.getElementById("mWarn").innerHTML = s.warn?('<div class="m-warn">'+s.warn+'</div>'):"";
+  document.getElementById("shopModal").classList.add("show");
+}
+function closeModal(){document.getElementById("shopModal").classList.remove("show")}
+document.getElementById("shopModal").addEventListener("click", function(e){
+  if(e.target===this) closeModal();
+});
+document.addEventListener("keydown", function(e){if(e.key==="Escape") closeModal()});
+document.getElementById("searchInput").addEventListener("input", renderShops);
+document.getElementById("filterRisk").addEventListener("change", renderShops);
+
+/* ===== 民族数据 ===== */
+var ETHNIC_GROUPS = [
+  {
+    id:"naxi", name:"纳西族", count:94247, color:"#B84A36", glyph:"纳",
+    img:"https://aka.doubaocdn.com/s/FOmSsxtz3Q",
+    history:[
+      "丽江坝子最早的定居者。唐宋时期形成\"么些\"部落，南宋宝佑元年（1253 年）忽必烈南征后设丽江军民总管府。明洪武十五年（1382 年），麦良后裔阿甲阿得被赐姓\"木\"，世袭丽江土知府 470 年。木氏土司在明代巅峰期把势力扩到藏东、川西南，今天古城里的木府就是那 470 年的衙署遗存。",
+      "清雍正元年（1723 年）改土归流后，汉文化大量进入古城，形成今天\"纳西为体、汉藏为用\"的格局。东巴文是目前世界上唯一仍在使用的象形文字，2003 年入选《世界记忆遗产名录》。"
+    ],
+    costume:[
+      "女子穿宽腰大袖大褂，外罩黑或藏青坎肩，系百褶围腰，下着长裤。最标志性的是羊皮披肩——用整黑绵羊皮硝制，上方裁成方形、下方剪成蛙形（纳西古崇拜青蛙为智慧神）。",
+      "披肩上缝两个大圆布盘，左日右月；下缀七枚彩绣圆盘代表北斗七星，每枚中心垂两根白羊皮须，共 14 根象征星光。劳动时两条白布带在胸前交叉系紧，远看就是七颗星围着月亮，所以叫\"披星戴月\"——意思是肩挑日月、背负星辰，天不亮就下地。2009 年列入云南省非遗。",
+      "男子服饰清代后基本与汉族趋同。"
+    ],
+    festivals:[
+      {name:"三朵节", time:"农历二月初八", desc:"祭纳西族保护神\"阿普三朵\"，传说他是白沙北岳庙的战神化身。当天四乡纳西人涌到白沙三朵阁烧香，踏青、野餐、对歌、赛马。1986 年正式定为纳西族法定民族节日。"},
+      {name:"火把节", time:"农历六月二十四至二十六", desc:"白天杀牲祭祖，傍晚举火把绕农田走一圈，意在烧虫祈丰收；最后整夜在广场踏歌。"},
+      {name:"七月骡马会", time:"农历七月中旬", desc:"在玉龙雪山脚下举办骡马交易、赛马、赛歌，是茶马古道留下的旧俗。"}
+    ]
+  },
+  {
+    id:"han", name:"汉族", count:33643, color:"#6B7B8C", glyph:"汉",
+    img:null,
+    history:[
+      "最早一批汉族是唐宋时期往来茶马古道的商旅。明洪武年间（1368–1398 年），木氏土司从南京、江西、浙江招募军户、工匠、医师入丽江，今天古城里不少大姓家谱仍写\"祖籍南京应天府\"。",
+      "1723 年改土归流后，流官办学校、推科举，汉文化成为古城上层建筑。古城本身的格局——四方街、五花石路、三坊一照壁——就是汉白纳西三族建筑融合的产物。"
+    ],
+    costume:[
+      "日常即现代汉族服饰。旅拍市场上对应\"汉服\"赛道：明制袄裙、重工齐胸襦裙、改良旗袍、新中式马面裙。",
+      "汉服和木府、大石桥、青石板巷的气质最搭，是古城旅拍第二大选项。"
+    ],
+    festivals:[
+      {name:"春节", time:"农历正月初一", desc:"贴春联、吃团圆饭、走亲戚，古城里会办年货街。"},
+      {name:"端午节", time:"农历五月初五", desc:"吃粽子、插艾蒿、系五彩线。"},
+      {name:"中秋节", time:"农历八月十五", desc:"赏月、吃月饼；在丽江也跟着过火把节、三朵节。"}
+    ]
+  },
+  {
+    id:"bai", name:"白族", count:22303, color:"#2E5C8A", glyph:"白",
+    img:"https://aka.doubaocdn.com/s/kFrlolye4U",
+    history:[
+      "白族先民是洱海周边的\"西洱河蛮\"，唐宋建立南诏、大理国。从元代起，大理、鹤庆一带的白族工匠、商人沿茶马古道北上丽江，多从事木匠、石匠、银匠、皮革业。",
+      "古城里\"三坊一照壁\"的建筑范式、银器作坊、大理石工艺品，主要就是白族师傅传下来的。"
+    ],
+    costume:[
+      "白族尚白。女子穿白上衣、红或黑丝绒领褂，腰系绣花围腰，下着蓝布长裤，脚穿绣花\"百节鞋\"。",
+      "最有名的是头上那顶\"风花雪月\"包头：左侧垂下的白穗子随风摆 = 下关风；帽上的鲜花刺绣 = 上关花；帽顶一圈纯白绒毛 = 苍山雪；整个弯月形轮廓 = 洱海月。穗子长表示未婚、短表示已婚。男子缠白头帕、穿白衣黑领褂。2017 年白族服饰列入云南省非遗。"
+    ],
+    festivals:[
+      {name:"三月街", time:"农历三月十五至二十一", desc:"起源于唐代永徽年间，已 1300 多年，在大理城西点苍山脚下举行，\"千年赶一街，一街赶千年\"。白天摆摊交易药材、骡马、土布，晚上赛马、对歌、演大本曲、洞经古乐，每年百万人参加。"},
+      {name:"火把节", time:"农历六月二十五", desc:"每个白族村寨在中央竖两三丈高大火把，入夜点燃，绕火把祈五谷丰登；青年男女举小火把互洒松明粉，喷出火焰。"},
+      {name:"绕三灵", time:"农历四月二十三至二十五", desc:"洱海周边白族村寨集体沿苍山脚下祭祀本主，三天彻夜对歌，被称为\"白族的情人节\"。"}
+    ]
+  },
+  {
+    id:"yi", name:"彝族", count:2610, color:"#7A3B2E", glyph:"彝",
+    img:"https://aka.doubaocdn.com/s/JGP7sdMr6V",
+    history:[
+      "彝族先民是从西北南下的古羌人，魏晋称\"乌蛮\"。丽江境内的彝族多为明清之际从四川凉山、云南楚雄、永胜一带迁来，聚居于山区，以农牧为生。",
+      "丽江彝族与凉山彝族同属诺苏支系，语言、服饰、节日高度一致。"
+    ],
+    costume:[
+      "男女老少一年四季都披\"察尔瓦\"（彝语\"瓦拉\"）——用粗羊毛线织成 13 幅长条缝合成披风，长及膝盖，染深蓝、黑或天然白羊毛色，下摆吊 30 厘米长的流苏穗子。白天当衣、夜里当被、挡雨挡雪。",
+      "女子内穿右襟短衣、下着百褶长裙；黑彝地区察尔瓦染黑，白彝地区用本白羊毛。昭通东晋霍氏墓壁画（公元 4 世纪）里就有身披察尔瓦的彝人形象，和今天凉山彝族穿得一模一样。"
+    ],
+    festivals:[
+      {name:"火把节", time:"农历六月二十四至二十六，三天三夜", desc:"分迎火、玩火、送火三段。白天杀牛祭祖、赛马、斗牛、摔跤、选美；晚上举火把绕房屋和田地走一圈，烧掉害虫祈丰收，最后全村人围大火把踏歌到通宵，号称\"东方狂欢夜\"。"},
+      {name:"彝族年 / 十月年", time:"农历十月", desc:"仿汉族春节，杀年猪、走亲访友、跳舞。"},
+      {name:"赛衣节", time:"农历三月二十八（楚雄彝族）", desc:"姑娘们把最好的刺绣、银饰穿出来比美，也是青年男女择偶的场合。"}
+    ]
+  },
+  {
+    id:"lisu", name:"傈僳族", count:1923, color:"#C89028", glyph:"僳",
+    img:"https://aka.doubaocdn.com/s/54VkKRCzmV",
+    history:[
+      "唐代史籍里的\"栗粟\"是傈僳先民，原居雅砻江、金沙江上游。16 世纪以后为逃避战乱和土司压迫，分批沿澜沧江、怒江、独龙江南迁。",
+      "丽江的傈僳族多是近代从怒江泸水、兰坪一带迁来，散居山区，擅长狩猎、织麻布。"
+    ],
+    costume:[
+      "男子穿麻布长衫、裤及膝，腰佩长刀和箭包，头缠黑布。",
+      "女子穿右衽上衣及百褶长裙，外罩坎肩；最有辨识度的是头戴\"俄勒\"——用珊瑚、海贝、银币、料珠串成的圆盘大帽，垂到耳后。裙边镶红黑几何刺绣。色彩以麻本色、大红、黑为主。"
+    ],
+    festivals:[
+      {name:"阔时节", time:"公历 12 月 20 日", desc:"傈僳语\"阔时\"就是\"新年\"，相当于汉族春节。家家户户舂籼米粑、酿水酒、杀年猪；第一天全寨人聚在广场射弩、对歌、跳\"瓜期\"舞。"},
+      {name:"刀杆节", time:"农历二月初八", desc:"\"上刀山、下火海\"——赤手爬上插着 36 把锋利长刀的三丈高杆，再从烧红的炭火堆上赤脚踏过，象征勇猛、祛邪。"},
+      {name:"澡堂会", time:"农历正月初二", desc:"全家男女老少到怒江边温泉集体沐浴、赛歌，是傈僳族独有的春日聚会。"}
+    ]
+  },
+  {
+    id:"miao", name:"苗族", count:1451, color:"#4A7C59", glyph:"苗",
+    img:"https://aka.doubaocdn.com/s/9ZbGoVjmDJ",
+    history:[
+      "苗族先民原本居住在长江中游，历经千年迁徙进入云贵高原。丽江的苗族多是清末民初从贵州、昭通一带逃荒、经商进来的。",
+      "人数不多，但带来了完整的银饰、蜡染、苗绣工艺。"
+    ],
+    costume:[
+      "女子盛装戴银角、银冠、银梳，脖子上套三五层银项圈，胸前挂银压领，袖口、围裙全部绣花鸟。",
+      "百褶裙有三四十层褶，走起路来\"刷刷\"响。一身盛装银饰加起来 10–15 公斤，往往是母亲传给女儿的传家宝。\"花衣银装赛天仙\"说的就是苗族。旅拍市场上最火的\"古国公主\"风，视觉原型就是苗族银冠。"
+    ],
+    festivals:[
+      {name:"花山节 / 踩花山", time:"农历正月初二至初七", desc:"苗族最隆重节日。寨中立一根三丈花杆，杆顶挂酒和红旗；青年男女绕杆跳芦笙舞、爬花杆、对歌，是择偶场合。"},
+      {name:"四月八", time:"农历四月初八", desc:"纪念苗族祖先迁徙，全寨吃黑糯米饭、跳芦笙。"},
+      {name:"吃新节", time:"农历六月，新谷登场时", desc:"祭祀谷神，尝新米。"}
+    ]
+  },
+  {
+    id:"pumi", name:"普米族", count:1099, color:"#8A6520", glyph:"普",
+    img:"https://aka.doubaocdn.com/s/Xfnu7NSyG0",
+    history:[
+      "普米族先民是青藏高原上的游牧部落，史称\"西番\"，约公元 7 世纪沿横断山南迁到川滇交界的宁蒗、兰坪、维西一带。",
+      "丽江古城区的普米族多从宁蒗、玉龙山区迁入。"
+    ],
+    costume:[
+      "女子梳大辫、外包黑布包头；穿窄袖高领大襟短衣，下着百褶长裙，腰系羊毛彩带，肩披白羊皮，胸前挂银链。",
+      "春秋穿灯芯绒夹衣，领边、袖口镶金银边，叫\"金边衣\"，是最华贵的装束。",
+      "最有特色的是 13 岁成丁礼：除夕夜鸡叫时，男孩由舅父带到火塘左前方，脚踩粮袋和猪膘，右手握刀、左手拿银元，换上短衣长裤；女孩由母亲带到火塘右前方，脚踩猪膘粮袋，手握麻线耳环，换上短衣百褶裙——从此告别童装，算成年。"
+    ],
+    festivals:[
+      {name:"大过年", time:"腊月初七为岁首，连过 3–15 天", desc:"普米族最隆重的年节。杀年猪、走亲戚，兰坪一带客人上门必赠一块火烤肘肉加一碗骨头汤。"},
+      {name:"转山会", time:"农历七月二十五", desc:"祭山神，盛装绕山、野餐、对歌。"},
+      {name:"尝新节", time:"每年新粮登场", desc:"先祭灶神和祖先，再尝新米。"}
+    ]
+  },
+  {
+    id:"zang", name:"藏族", count:1084, color:"#5A3A5C", glyph:"藏",
+    img:"https://aka.doubaocdn.com/s/8LaBrAWC27",
+    history:[
+      "丽江藏族多是明清以来从西藏昌都、四川康区、云南迪庆沿茶马古道来的商人、马帮和喇嘛。",
+      "古城里的藏客宅院、藏传佛教寺院（福国寺、指云寺）都是他们建的。"
+    ],
+    costume:[
+      "藏袍宽腰长袖、大襟右衽，长度过身；穿时从腰际提起一截，用绸带束在腰间，形成一个大口袋，可以装东西、抱小孩。内穿长袖花衬衣，跳舞时把长袖甩起来。",
+      "已婚女子腰系彩色横条纹围裙\"邦典\"（藏语\"怀前的垫子\"），是藏族女性最标志性的配饰；2006 年邦典织造技艺列入国家级非遗。男女都穿氆氇长靴或牛皮靴，戴呢礼帽。旅拍店的\"藏袍+大经幡\"外景就是这套。"
+    ],
+    festivals:[
+      {name:"藏历新年", time:"藏历正月初一，约公历 2–3 月", desc:"摆酥油花、吃古突面疙瘩、互相献哈达祝福。"},
+      {name:"雪顿节", time:"藏历六月底，约公历 8 月", desc:"\"雪顿\"意为\"酸奶宴\"。哲蚌寺晒大佛——把几十米长的唐卡在山坡上展开，信众朝佛；接着演藏戏、逛林卡（野营）。"},
+      {name:"燃灯节", time:"藏历十月二十五，宗喀巴圆寂日", desc:"家家户户屋顶点起千百盏酥油灯。"}
+    ]
+  },
+  {
+    id:"huizu", name:"回族", count:555, color:"#2F4F4F", glyph:"回",
+    img:"https://aka.doubaocdn.com/s/HeXNn2c5ZP",
+    history:[
+      "元代（1253 年）忽必烈南征大理时，一支中亚穆斯林\"色目军户\"随军落籍丽江，是最早的回族先民。",
+      "明清又有沿茶马古道藏区经商的回族商人迁入，古城文明巷一带就是传统回族聚居区，建有清真寺。"
+    ],
+    costume:[
+      "男子戴白色无沿小圆帽（\"号帽\"），穿白色对襟衫、外套青坎肩，礼拜时戴白布缠头。",
+      "女子最标志性的是盖头：少女戴绿色、已婚中年戴黑色、老年戴白色，遮住头发和脖颈，只露脸；配大襟长袍。现代日常服饰已与汉族融合，只在礼拜、过节时穿戴。"
+    ],
+    festivals:[
+      {name:"开斋节", time:"伊斯兰历十月一日", desc:"斋月封斋一个月后，当天清真寺会礼、炸油香、走亲访友。"},
+      {name:"古尔邦节", time:"伊斯兰历十二月十日", desc:"开斋节后 70 天，宰羊宰牛、分送穷人，朝觐功课的日子。"},
+      {name:"圣纪节", time:"伊斯兰历三月十二", desc:"纪念穆罕默德诞辰，清真寺诵经过圣节。"}
+    ]
+  },
+  {
+    id:"mosuo", name:"摩梭人", count:519, color:"#B84A6B", glyph:"摩",
+    img:"https://aka.doubaocdn.com/s/lCyrFLDtOS",
+    history:[
+      "摩梭人说纳西语方言，主要聚居于泸沽湖周边（云南宁蒗、四川盐源），被称为\"母系活化石\"。古城区的摩梭人多由宁蒗泸沽湖周边迁入。",
+      "摩梭人至今保留母系大家庭和\"走婚\"制度——男子夜晚到女方家留宿、清晨回母亲家劳动，两人不组建共同家庭，孩子由母亲和舅舅抚养。"
+    ],
+    costume:[
+      "女子穿右衽短上衣、百褶长裙，腰系彩带；梳长辫盘头，戴插满鲜花彩珠的\"摩梭头饰\"。",
+      "和纳西族披毡不同，摩梭女装偏素白、喜红绿配色，少银饰。13 岁行成丁礼：女孩在火塘右前方\"女柱\"下穿裙，男孩在左前方\"男柱\"下穿裤；之后女孩搬进单独的\"花楼\"，才开始有走婚资格。"
+    ],
+    festivals:[
+      {name:"转山节", time:"农历七月二十五", desc:"摩梭最隆重节日。全村盛装骑马或步行，浩浩荡荡朝拜格姆女神山（泸沽湖北岸的狮子山），献祭、野餐、对歌、赛马，祈求女神保佑人畜平安。"},
+      {name:"成丁礼", time:"每年春节，年满 13 岁者", desc:"火塘边换装仪式，男孩穿裤、女孩穿裙，从此算成年。"},
+      {name:"祭水神", time:"农历九月", desc:"泸沽湖上船祭水，祈渔业丰收。"}
+    ]
+  },
+  {
+    id:"daizu", name:"傣族", count:366, color:"#3A7D6E", glyph:"傣",
+    img:"https://aka.doubaocdn.com/s/sfsj9w3vq2",
+    history:[
+      "傣族先民是云贵高原的百越族群，世居西双版纳、德宏河谷。丽江的傣族人数少，多是近代因工作、婚姻从西双版纳、德宏迁入。"
+    ],
+    costume:[
+      "女子穿窄袖短上衣（露一截腰）+ 长筒裙，束发盘髻，鬓边插鲜花。",
+      "筒裙傣语叫\"裹身的布\"，是一块长约两米的独幅布，腰间一围、银带一扣就成裙子，裙上织孔雀、大象、水波纹。男子穿无领对襟短衫、长管裤，白毛巾包头。"
+    ],
+    festivals:[
+      {name:"泼水节", time:"阳历 4 月 13–15 日，傣历新年", desc:"全云南最盛大的节日。清晨浴佛，然后互相泼水洗旧年污晦，赛龙舟、放高升、跳孔雀舞。"},
+      {name:"关门节", time:"阳历 7 月中旬，傣历九月十五", desc:"三个月僧侣安居期，村寨不办喜事、不盖新房。"},
+      {name:"开门节", time:"阳历 10 月中旬", desc:"安居期满，夜晚放孔明灯、串寨访友。"}
+    ]
+  },
+  {
+    id:"zhuang", name:"壮族", count:357, color:"#1F5E8C", glyph:"壮",
+    img:"https://aka.doubaocdn.com/s/MRSlHctVkj",
+    history:[
+      "壮族源于百越西瓯、骆越支系，世居广西。丽江的壮族多是明清从广西、滇东南（文山）因屯垦、经商迁入。"
+    ],
+    costume:[
+      "女子穿藏青或蓝黑色右衽大襟上衣、宽脚裤，腰系绣花围腰，头包绣满壮锦几何纹的黑头帕；盛装配银项圈、银耳环。",
+      "男子穿对襟唐装、包头巾。壮锦以红蓝黑几何纹、回纹、凤纹为特色，与蜀锦、云锦齐名。"
+    ],
+    festivals:[
+      {name:"三月三歌节", time:"农历三月初三", desc:"壮族最隆重节日。男女青年聚集在山坡对山歌，抛绣球、碰彩蛋、赶歌圩，也是择偶的大日子。"},
+      {name:"中元节", time:"农历七月十四", desc:"比春节还隆重，祭祖先、蒸五色糯米饭。"},
+      {name:"陀螺节", time:"农历除夕至正月十五", desc:"比赛打陀螺，陀螺大的十多斤。"}
+    ]
+  },
+  {
+    id:"man", name:"满族", count:107, color:"#8C3A3A", glyph:"满",
+    img:"https://aka.doubaocdn.com/s/XUxL2CqUrS",
+    history:[
+      "满族进入丽江主要在清代。清初派驻丽江的武官、旗人随从及后来经商者落户古城，人数一直不多。"
+    ],
+    costume:[
+      "清代旗女穿宽大直筒旗装，衣长过脚，袖口带马蹄袖，梳\"两把头\"（把头发横盘在头顶成一横髻），戴大拉翅，脚穿\"花盆底\"旗鞋（鞋底中间高 5–10 厘米）。",
+      "清末民国在上海改良成收腰、立领、开衩的现代旗袍——今天旅拍市场上的\"民国风\"\"新中式旗袍\"源头就是这套旗装。"
+    ],
+    festivals:[
+      {name:"颁金节", time:"农历十月十三", desc:"1635 年皇太极改族名\"满洲\"的纪念日，是满族自己的新年。"},
+      {name:"春节、上元节", time:"农历正月初一 / 正月十五", desc:"与汉族同过，但满洲贵族家过年有跳萨满、吃萨其马的旧俗。"}
+    ]
+  }
+];
+
+/* 饼图：13 个 >100 民族 + 其他 */
+var PIE_DATA = ETHNIC_GROUPS.map(function(e){return {name:e.name, value:e.count, itemStyle:{color:e.color}}});
+PIE_DATA.push({name:"其他 26 个小民族", value:39796-ETHNIC_GROUPS.reduce(function(s,e){return s+e.count},0), itemStyle:{color:"#C9B88A"}});
+
+var pieChartInst = null;
+function renderPie(){
+  var el = document.getElementById("pieChart");
+  if(!el || typeof echarts==="undefined") return;
+  pieChartInst = echarts.init(el);
+  pieChartInst.setOption({
+    tooltip:{trigger:"item", formatter:"{b}<br/>{c} 人（{d}%）"},
+    legend:{orient:"horizontal", bottom:0, left:"center", textStyle:{fontSize:11, color:"#5A554A"}, itemWidth:10, itemHeight:10, type:"scroll"},
+    series:[{
+      type:"pie", radius:["30%","55%"], center:["50%","42%"],
+      avoidLabelOverlap:true,
+      itemStyle:{borderColor:"#F5EFE0", borderWidth:2},
+      label:{formatter:"{b} {d}%", fontSize:10, color:"#2B2B28"},
+      emphasis:{label:{fontSize:12, fontWeight:"bold"}, itemStyle:{shadowBlur:10, shadowColor:"rgba(0,0,0,.2)"}},
+      data:PIE_DATA
+    }]
+  });
+  window.addEventListener("resize", function(){if(pieChartInst) pieChartInst.resize()});
+}
+
+function renderEthGrid(){
+  var grid = document.getElementById("ethGrid");
+  grid.innerHTML = ETHNIC_GROUPS.map(function(e){
+    return '<div class="eth-card" data-id="'+e.id+'" style="border-top-color:'+e.color+'">'+
+      '<div class="glyph" style="background:'+e.color+'">'+e.glyph+'</div>'+
+      '<h4>'+e.name+'</h4>'+
+      '<p>'+(e.history[0].slice(0,60))+'…</p>'+
+    '</div>';
+  }).join("");
+  grid.querySelectorAll(".eth-card").forEach(function(c){
+    c.addEventListener("click", function(){location.hash = "#/costumes/"+c.getAttribute("data-id")});
+  });
+}
+
+function renderEthDetail(id){
+  var e = ETHNIC_GROUPS.find(function(x){return x.id===id});
+  var d = document.getElementById("ethDetail");
+  if(!e){ d.classList.remove("active"); return; }
+  var imgHtml = e.img
+    ? '<div style="margin:18px 0;text-align:center"><img src="'+e.img+'" alt="'+e.name+'服饰" style="max-width:80%;max-height:340px;width:auto;height:auto;display:inline-block;border-radius:12px;border:1px solid var(--line);object-fit:contain"></div>'
+    : '';
+  d.innerHTML =
+    '<div class="eth-banner" style="background:linear-gradient(135deg,'+e.color+' 0%,#2B2B28 100%)">'+
+      '<span class="back" onclick="location.hash=\'#/costumes\'">← 返回民族列表</span>'+
+      '<h2>'+e.name+'</h2>'+
+      '<div class="seal">'+e.glyph+'</div>'+
+    '</div>'+
+    '<div class="eth-section"><h3>历史</h3>'+e.history.map(function(p){return '<p>'+p+'</p>'}).join("")+'</div>'+
+    '<div class="eth-section"><h3>服饰</h3>'+imgHtml+e.costume.map(function(p){return '<p>'+p+'</p>'}).join("")+'</div>'+    '<div class="eth-section"><h3>传统节日</h3>'+e.festivals.map(function(f){
+      return '<div style="margin-bottom:14px"><div style="font-weight:600;color:var(--ink);margin-bottom:4px">'+f.name+' <span style="color:var(--accent);font-weight:400;font-size:13px">· '+f.time+'</span></div><div style="font-size:14px;color:var(--ink-soft);line-height:1.75">'+f.desc+'</div></div>';
+    }).join("")+'</div>';
+  d.classList.add("active");
+}
+
+/* ===== 启动 ===== */
+route();
+renderShops();
+renderPie();
+renderEthGrid();
+// 地图懒初始化：首次切到 /map 时再建（避免隐藏容器尺寸为 0）
+function ensureMap(){
+  if(!leafletMap) initMap();
+  setTimeout(function(){ leafletMap.invalidateSize(); }, 50);
+}
+window.addEventListener("hashchange", function(){
+  if((location.hash||"").indexOf("#/map")===0) ensureMap();
+});
+if((location.hash||"").indexOf("#/map")===0) ensureMap();
+</script>
+</body>
+</html>
