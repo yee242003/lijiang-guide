@@ -437,22 +437,27 @@ img{max-width:100%;display:block}
       <p class="desc">评级规则：评分 ≥4.8 且评论数 ≥50 为低风险；评分 4.5–4.8 或评论数偏少为中风险；评分 &lt;4.0、评论数极少或有持续差评记录为高风险。数据来自抖音/美团公开套餐与线下调研，仅供参考。</p>
     </div>
 
-    <!-- 三大避坑工具 -->
-    <div class="tool-cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0 22px">
-      <div class="tool-card" onclick="toggleTool(0)" style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;border-top:3px solid var(--accent)">
-        <div style="font-size:22px;margin-bottom:6px">📋</div>
-        <div style="font-weight:600;font-size:15px;color:var(--ink)">报价单避坑清单</div>
-        <div style="font-size:12px;color:var(--ink-faint);margin-top:4px">签合同前逐条核对，识别隐形消费</div>
+    <!-- 四大避坑工具 -->
+    <div class="tool-cards" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 22px">
+      <div class="tool-card" onclick="toggleTool(0)" style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;border-top:3px solid var(--accent)">
+        <div style="font-size:20px;margin-bottom:6px">📋</div>
+        <div style="font-weight:600;font-size:14px;color:var(--ink)">报价单避坑清单</div>
+        <div style="font-size:12px;color:var(--ink-faint);margin-top:4px">签合同前逐条核对</div>
       </div>
-      <div class="tool-card" onclick="toggleTool(1)" style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;border-top:3px solid #C89028">
-        <div style="font-size:22px;margin-bottom:6px">🎨</div>
-        <div style="font-weight:600;font-size:15px;color:var(--ink)">精修质量自检</div>
-        <div style="font-size:12px;color:var(--ink-faint);margin-top:4px">收到精修图后对照检查这 8 项</div>
+      <div class="tool-card" onclick="toggleTool(1)" style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;border-top:3px solid #C89028">
+        <div style="font-size:20px;margin-bottom:6px">🎨</div>
+        <div style="font-weight:600;font-size:14px;color:var(--ink)">精修质量自检</div>
+        <div style="font-size:12px;color:var(--ink-faint);margin-top:4px">收到图后对照检查</div>
       </div>
-      <div class="tool-card" onclick="toggleTool(2)" style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;border-top:3px solid #B84A36">
-        <div style="font-size:22px;margin-bottom:6px">🚨</div>
-        <div style="font-weight:600;font-size:15px;color:var(--ink)">高风险店预警</div>
-        <div style="font-size:12px;color:var(--ink-faint);margin-top:4px">这些店差评集中，下单前三思</div>
+      <div class="tool-card" onclick="toggleTool(2)" style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;border-top:3px solid #B84A36">
+        <div style="font-size:20px;margin-bottom:6px">🚨</div>
+        <div style="font-weight:600;font-size:14px;color:var(--ink)">高风险店预警</div>
+        <div style="font-size:12px;color:var(--ink-faint);margin-top:4px">差评集中的店</div>
+      </div>
+      <div class="tool-card" onclick="toggleTool(3)" style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;border-top:3px solid #2E5C8A">
+        <div style="font-size:20px;margin-bottom:6px">📮</div>
+        <div style="font-weight:600;font-size:14px;color:var(--ink)">投诉举报</div>
+        <div style="font-size:12px;color:var(--ink-faint);margin-top:4px">遇到宰客/占机位直接投诉</div>
       </div>
     </div>
 
@@ -1196,7 +1201,37 @@ var TOOL_CONTENT = [
   // 2: 高风险店预警
   '<h3 style="font-size:17px;margin-bottom:12px;color:#B84A36">🚨 高风险店预警</h3>'+
   '<p style="font-size:13px;color:var(--ink-faint);margin-bottom:14px">以下店铺评分低于 4.0 或评价数极少，差评集中，强烈建议避开。</p>'+
-  '<div id="highRiskList" style="font-size:14px"></div>'
+  '<div id="highRiskList" style="font-size:14px"></div>',
+  // 3: 投诉举报
+  '<h3 style="font-size:17px;margin-bottom:12px;color:#2E5C8A">📮 投诉举报</h3>'+
+  '<p style="font-size:13px;color:var(--ink-faint);margin-bottom:16px">旅拍中遇到恶意占机位、强制消费、隐形加价、修图敷衍、态度恶劣等问题，可在此提交投诉。试验阶段，投诉信息暂存本地，后续将对接官方渠道。</p>'+
+  '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">'+
+    '<div><label style="font-size:13px;color:var(--ink-soft);display:block;margin-bottom:4px">投诉类型</label>'+
+    '<select id="compType" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;font-size:14px">'+
+      '<option>恶意占用机位/霸场</option>'+
+      '<option>强制消费/隐形加价</option>'+
+      '<option>底片不全送/精修敷衍</option>'+
+      '<option>服务态度恶劣</option>'+
+      '<option>服装脏污/妆造敷衍</option>'+
+      '<option>其他</option>'+
+    '</select></div>'+
+    '<div><label style="font-size:13px;color:var(--ink-soft);display:block;margin-bottom:4px">涉及店铺/地点</label>'+
+    '<input id="compShop" type="text" placeholder="如：XX旅拍 / 蓝月谷X号机位" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;font-size:14px"></div>'+
+  '</div>'+
+  '<div style="margin-bottom:12px"><label style="font-size:13px;color:var(--ink-soft);display:block;margin-bottom:4px">事件描述</label>'+
+  '<textarea id="compDesc" rows="4" placeholder="简单描述事情经过、时间、金额等…" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;font-size:14px;resize:vertical"></textarea></div>'+
+  '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">'+
+    '<div><label style="font-size:13px;color:var(--ink-soft);display:block;margin-bottom:4px">联系方式（选填）</label>'+
+    '<input id="compContact" type="text" placeholder="手机号/微信" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;font-size:14px"></div>'+
+    '<div style="display:flex;align-items:flex-end"><button onclick="submitComplaint()" style="width:100%;padding:10px;background:#2E5C8A;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer">提交投诉</button></div>'+
+  '</div>'+
+  '<div id="compResult" style="display:none;padding:12px;background:#E8F0E8;border-radius:8px;font-size:14px;color:#2D6A2D"></div>'+
+  '<div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-faint)">'+
+    '<b>也可直接向官方投诉：</b><br>'+
+    '• 12315 市场监管热线（消费欺诈、价格问题）<br>'+
+    '• 12345 政务服务热线（旅游投诉综合）<br>'+
+    '• 丽江市文旅局：0888-5121706'+
+  '</div>'
 ];
 
 function toggleTool(i){
@@ -1220,6 +1255,22 @@ function toggleTool(i){
       '</div>';
     }).join("");
   }
+}
+
+function submitComplaint(){
+  var type = document.getElementById("compType").value;
+  var shop = document.getElementById("compShop").value.trim();
+  var desc = document.getElementById("compDesc").value.trim();
+  var contact = document.getElementById("compContact").value.trim();
+  if(!desc){ alert("请填写事件描述"); return; }
+  var complaints = JSON.parse(localStorage.getItem("lj_complaints")||"[]");
+  complaints.push({type:type, shop:shop, desc:desc, contact:contact, time:new Date().toLocaleString()});
+  localStorage.setItem("lj_complaints", JSON.stringify(complaints));
+  var r = document.getElementById("compResult");
+  r.style.display = "block";
+  r.innerHTML = "✅ 投诉已提交（试验阶段暂存本地）。共收到 " + complaints.length + " 条投诉。如需加急处理，请拨打 12315。";
+  document.getElementById("compDesc").value = "";
+  document.getElementById("compShop").value = "";
 }
 
 function renderShops(){
